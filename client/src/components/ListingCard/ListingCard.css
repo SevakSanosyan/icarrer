@@ -1,0 +1,151 @@
+.listing-card {
+  width: 100%;
+
+  display: flex;
+  gap: 30px;
+
+  background-color: white;
+
+  padding: 25px;
+
+  border-radius: 24px;
+
+  border: 1px solid #ececec;
+
+  transition: 0.3s;
+
+  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+}
+
+.listing-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.listing-card__image {
+  width: 180px;
+  height: 180px;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  flex-shrink: 0;
+
+  background-color: #f2f2f2;
+}
+
+.listing-card__image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.listing-card__content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.listing-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.listing-card__top h2 {
+  font-size: 32px;
+
+  color: #DB4A2B;
+}
+
+.listing-card__top span {
+  background-color: #DB4A2B;
+  color: white;
+
+  padding: 8px 14px;
+
+  border-radius: 30px;
+
+  font-size: 14px;
+}
+
+.listing-card__content p {
+  line-height: 1.8;
+
+  color: #444;
+
+  font-size: 17px;
+}
+
+.listing-card__content button {
+  width: 180px;
+  height: 50px;
+
+  background-color: #000;
+  color: white;
+
+  border-radius: 12px;
+
+  transition: 0.3s;
+}
+
+.listing-card__content button:hover {
+  background-color: #DB4A2B;
+}
+
+@media (max-width: 900px) {
+
+  .listing-card {
+    flex-direction: column;
+  }
+
+  .listing-card__image {
+    width: 100%;
+    height: 250px;
+  }
+
+  .listing-card__top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .listing-card__top h2 {
+    font-size: 26px;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .listing-card {
+    padding: 18px;
+  }
+
+  .listing-card__image {
+    height: 220px;
+  }
+
+  .listing-card__top h2 {
+    font-size: 22px;
+  }
+
+  .listing-card__content p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .listing-card__content button {
+    width: 100%;
+  }
+
+}
