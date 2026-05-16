@@ -7,6 +7,7 @@ import Hero from "../components/Hero/Hero";
 import Listings from "../components/Listings/Listings";
 import Pagination from "../components/Pagination/Pagination";
 import SubmitForm from "../components/SubmitForm/SubmitForm";
+import Footer from "../components/Footer/Footer";
 
 function Home() {
 
@@ -64,6 +65,8 @@ function Home() {
       />
 
       <SubmitForm />
+      
+      <Footer />
 
     </div>
   );
