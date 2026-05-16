@@ -44,6 +44,7 @@
 
   border-radius: 12px;
   padding: 6px;
+
   font-size: 16px;
   font-weight: 600;
 }
@@ -51,6 +52,7 @@
 @media (max-width: 900px) {
 
   .header {
+
     flex-direction: column;
 
     gap: 20px;
@@ -63,24 +65,47 @@
 @media (max-width: 500px) {
 
   .header {
+
     min-height: auto;
+
+    gap: 16px;
+
+    padding: 16px;
   }
 
+  /* ԼՈԳՈՆ ԱՎԵԼԻ ՄԵԾ */
+
   .header__logo img {
-    width: 100px;
+
+    width: 145px;
+  }
+
+  /* ՍՈՑ ՑԱՆՑԵՐԸ ՓՈՔՐ */
+
+  .header__socials {
+
+    gap: 16px;
   }
 
   .header__socials img {
-    width: 32px;
-    height: 32px;
+
+    width: 24px;
+    height: 24px;
   }
 
+  /* ԿՆՈՊԿԱՆ ~20% ՓՈՔՐ */
+
   .header__button {
-    width: 100%;
+
+    width: 80%;
 
     min-width: auto;
 
-    font-size: 14px;
+    height: 44px;
+
+    font-size: 13px;
+
+    border-radius: 10px;
   }
 
 }

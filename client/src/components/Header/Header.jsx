@@ -2,6 +2,7 @@ import "./Header.css";
 import logo from "../../assets/images/logo3.png";
 import Instalogo from "../../assets/images/instagram.png";
 import Facebooklogo from "../../assets/images/facebook.png";
+import Telelogo from "../../assets/images/telegram.png";
 
 function Header() {
   const scrollToForm = () => {
@@ -26,17 +27,24 @@ function Header() {
 
 <div className="header__socials">
 
-  <a href="#">
+  <a href="https://www.facebook.com/profile.php?id=61589883387481 ">
     <img
       src={Facebooklogo}
-      alt="facebook"
+      alt="Facebook"
     />
   </a>
 
   <a href="#">
     <img
       src={Instalogo}
-      alt="instagram"
+      alt="Instagram"
+    />
+  </a>
+
+  <a href="#">
+    <img
+      src={Telelogo}
+      alt="Telegram"
     />
   </a>
 

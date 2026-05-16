@@ -1,5 +1,5 @@
 import "./Hero.css";
-import HeroLogo from "../../assets/images/logo1.jpeg"
+import HeroLogo from "../../assets/images/logo5.jpeg"
 function Hero() {
   return (
     <section className="hero">
@@ -7,16 +7,17 @@ function Hero() {
       <div className="hero__left">
 
         <h1>
-          Տեղադրեք Ձեր 
+        ԱՇԽԱՏԱՆՔԻ
+        <span>ՀԱՅՏԱՐԱՐՈՒԹՅՈՒՆՆԵՐԻ </span>
           <span>
-            հայտարարությունը
+           
+          ՀԱՐԹԱԿ
           </span>
         </h1>
 
         <p>
-          Արագ, հեշտ և հարմար տարբերակ
-          Ձեր ծառայությունը կամ ապրանքը
-          ներկայացնելու համար։
+
+    Ձեր աշխատատեղը Ձեզ է սպասում
         </p>
 
         <button
