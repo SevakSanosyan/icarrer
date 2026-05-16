@@ -73,14 +73,14 @@
     padding: 16px;
   }
 
-  /* ԼՈԳՈՆ ԱՎԵԼԻ ՄԵԾ */
+ 
 
   .header__logo img {
 
     width: 145px;
   }
 
-  /* ՍՈՑ ՑԱՆՑԵՐԸ ՓՈՔՐ */
+  
 
   .header__socials {
 
@@ -93,11 +93,11 @@
     height: 24px;
   }
 
-  /* ԿՆՈՊԿԱՆ ~20% ՓՈՔՐ */
+ 
 
   .header__button {
 
-    width: 80%;
+    width: 70%;
 
     min-width: auto;
 

@@ -54,7 +54,8 @@ function Header() {
         className="header__button"
         onClick={scrollToForm}
       >
-        Տեղադրել հայտարարություն
+        
+        ՏԵՂԱԴՐԵԼ ՀԱՅՏԱՐԱՐՈՒԹՅՈՒՆ
       </button>
 
     </header>

@@ -20,17 +20,25 @@
   flex-direction: column;
 
   gap: 25px;
+  min-width: 0;
 }
 
 .hero__left h1 {
-  font-size: 58px;
-  line-height: 1.1;
-
+.hero__left h1 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: clamp(28px, 5vw, 58px);
+  line-height: 1.05;
   color: #000;
+  font-weight: 800;
+}
 }
 
 .hero__left h1 span {
   color: #DB4A2B;
+  display: block;
+  white-space: nowrap;
 }
 
 .hero__left p {
@@ -50,8 +58,8 @@
   color: white;
 
   border-radius: 14px;
-
-  font-size: 17px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .hero__right {
@@ -138,7 +146,9 @@
     margin-bottom: 15px;
   }
   .hero__left h1 {
-    font-size: 28px;
+    font-size: clamp(24px, 8vw, 34px);
+    line-height: 1.1;
+    gap: 4px;
   }
 
   .hero__left p {
