@@ -24,21 +24,21 @@
 }
 
 .hero__left h1 {
-.hero__left h1 {
+
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: clamp(28px, 5vw, 58px);
+  font-size: clamp(26px, 4.5vw, 58px);
   line-height: 1.05;
   color: #000;
   font-weight: 800;
-}
+  width: 100%;
 }
 
 .hero__left h1 span {
   color: #DB4A2B;
   display: block;
-  white-space: nowrap;
+  width: 100%;
 }
 
 .hero__left p {
@@ -135,32 +135,65 @@
 
 @media (max-width: 500px) {
 
-
   .hero {
+
     min-height: auto;
 
     gap: 40px;
+
+    padding: 40px 18px;
   }
 
   .hero__left  {
+
     margin-bottom: 15px;
+
+    width: 100%;
+
+    align-items: center;
   }
+
   .hero__left h1 {
-    font-size: clamp(24px, 8vw, 34px);
-    line-height: 1.1;
-    gap: 4px;
+
+    font-size: 28px;
+
+    line-height: 1.08;
+
+    gap: 6px;
+
+    width: 100%;
+
+    text-align: center;
+
+    word-break: keep-all;
   }
 
   .hero__left p {
+
     font-size: 16px;
+
+    text-align: center;
   }
 
   .hero__left button {
-    width: 100%;
+
+    width: calc(100% - 20px);
+
+    max-width: 320px;
+
+    margin: 0 auto;
+
+    height: 54px;
+
+    font-size: 15px;
   }
 
   .hero__image {
+
     width: 100%;
+
+    max-width: 340px;
+
     height: 260px;
 
     border-radius: 24px;
