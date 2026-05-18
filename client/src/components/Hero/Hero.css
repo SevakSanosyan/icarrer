@@ -215,7 +215,7 @@
   }
 
   .hero__logo {
-    width: 115%;
+    max-width: 115%;
   }
 
 }
