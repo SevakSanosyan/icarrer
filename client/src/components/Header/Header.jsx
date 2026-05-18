@@ -181,7 +181,7 @@ function Header({
 
             >
 
-              Գրանցվել
+              Մուտք
 
             </button>
 
