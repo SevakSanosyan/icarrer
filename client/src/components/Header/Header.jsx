@@ -3,14 +3,43 @@ import logo from "../../assets/images/logo3.png";
 import Instalogo from "../../assets/images/instagram.png";
 import Facebooklogo from "../../assets/images/facebook.png";
 import Telelogo from "../../assets/images/telegram.png";
+import useAuthStore from "../../store/AuthStore";
+import { useState } from "react";
+import AuthModal from "../AuthModal/AuthModal";
 
 function Header() {
-  const scrollToForm = () => {
-    const formSection = document.getElementById("submit-form");
 
+  const {
+    token,
+    logout,
+  
+  } = useAuthStore();
+
+  const [isAuthOpen, setIsAuthOpen] =
+    useState(false);
+
+
+
+  const scrollToForm = () => {
+
+    if (!token) {
+  
+      setIsAuthOpen(true);
+  
+      return;
+    }
+  
+    const formSection =
+      document.getElementById(
+        "submit-form"
+      );
+  
     formSection.scrollIntoView({
+  
       behavior: "smooth",
+  
     });
+  
   };
 
   return (
@@ -58,7 +87,45 @@ function Header() {
         ՏԵՂԱԴՐԵԼ ՀԱՅՏԱՐԱՐՈՒԹՅՈՒՆ
       </button>
 
+      {
+
+token ? (
+
+  <button
+    onClick={logout}
+    className="header__button"
+  >
+    Դուրս գալ
+  </button>
+
+) : (
+
+  <button
+    onClick={() =>
+      setIsAuthOpen(true)
+    }
+
+    className="header__button"
+  >
+    Մուտք
+  </button>
+
+)
+}
+
+      <AuthModal
+
+isOpen={isAuthOpen}
+
+onClose={() =>
+  setIsAuthOpen(false)
+}
+/>
+
     </header>
+
+
+
   );
 }
 

@@ -157,6 +157,9 @@ function Admin() {
                     <p>
                       {listing.description}
                     </p>
+                    <h4>
+  {listing.userEmail}
+</h4>
 
                     <div className="admin-card__buttons">
 

@@ -21,6 +21,16 @@ const listingSchema = new mongoose.Schema({
     default: false,
   },
 
+  userEmail: {
+    type: String,
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 2592000,
+  },
+
 }, {
   timestamps: true,
 });

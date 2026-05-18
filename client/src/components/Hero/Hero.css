@@ -44,6 +44,8 @@
   font-weight: 800;
 
   width: 100%;
+
+  font-family:"Inter", sans-serif;
 }
 
 .hero__left h1 span {
@@ -210,6 +212,10 @@
     height: 260px;
 
     border-radius: 24px;
+  }
+
+  .hero__logo {
+    width: 115%;
   }
 
 }

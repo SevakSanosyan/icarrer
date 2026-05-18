@@ -3,9 +3,10 @@ import { useState } from "react";
 import api from "../../services/api";
 
 import "./SubmitForm.css";
+import useAuthStore from "../../store/AuthStore";
 
 function SubmitForm() {
-
+  const { user } = useAuthStore();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
@@ -33,6 +34,11 @@ const handleSubmit = async (e) => {
   try {
 
     const formData = new FormData();
+
+    formData.append(
+      "userEmail",
+      user?.email
+    );
 
     formData.append("title", title);
 

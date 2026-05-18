@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import ListingDetails from "./pages/ListingDetails";
+import SingleListing from "./pages/SingleListing";
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
 <Route
   path="/listing/:id"
   element={<ListingDetails />}
+/>
+
+<Route
+  path="/listing/:id"
+  element={<SingleListing />}
 />
 
       </Routes>

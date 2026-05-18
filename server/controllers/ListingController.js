@@ -7,19 +7,24 @@ const createListing = async (req, res) => {
     const {
       title,
       description,
+      userEmail,
     } = req.body;
 
     const image = req.file
       ? `/uploads/${req.file.filename}`
       : "";
 
-    const listing = await Listing.create({
-
-      title,
-      description,
-      image,
-
-    });
+      const listing =
+      await Listing.create({
+      
+        title,
+        description,
+        image,
+      
+        userEmail:
+        req.body.userEmail,
+      
+      });
 
     res.status(201).json(listing);
 
@@ -168,6 +173,28 @@ const getAllListings = async (
 
 };
 
+const getSingleListing =
+async (req, res) => {
+
+  try {
+
+    const listing =
+    await Listing.findById(
+      req.params.id
+    );
+
+    res.json(listing);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message:
+      error.message,
+    });
+  }
+};
+
+
 
 module.exports = {
   createListing,
@@ -177,4 +204,5 @@ module.exports = {
   deleteListing,
   getListingById,
   getAllListings,
+  getSingleListing,
 };

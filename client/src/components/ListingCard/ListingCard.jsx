@@ -44,11 +44,17 @@ function ListingCard({ listing }) {
           {listing.description}
         </p>
 
-        <button>
+        <button
+  onClick={() =>
+    navigate(
+      `/listing/${listing._id}`
+    )
+  }
+>
 
-          Կարդալ ավելին
+  Կարդալ ավելին
 
-        </button>
+</button>
 
       </div>
 

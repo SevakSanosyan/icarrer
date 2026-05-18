@@ -12,6 +12,7 @@ const {
   deleteListing,
   getListingById,
   getAllListings,
+  getSingleListing,
 } = require("../controllers/ListingController");
 
 router.post(
@@ -42,6 +43,11 @@ router.put(
 router.delete(
   "/:id",
   deleteListing
+);
+
+router.get(
+  "/:id",
+  getSingleListing
 );
 
 module.exports = router;
