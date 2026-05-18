@@ -197,3 +197,41 @@
       align-items: center;
     }
   }
+
+  .auth__error {
+
+    width: 100%;
+  
+    padding: 12px;
+  
+    border-radius: 12px;
+  
+    background: #ffe5e5;
+  
+    color: #d10000;
+  
+    text-align: center;
+  
+    font-size: 14px;
+  
+    font-weight: 600;
+  }
+  
+  .auth__success {
+  
+    width: 100%;
+  
+    padding: 12px;
+  
+    border-radius: 12px;
+  
+    background: #e7ffe7;
+  
+    color: #0d8f0d;
+  
+    text-align: center;
+  
+    font-size: 14px;
+  
+    font-weight: 600;
+  }

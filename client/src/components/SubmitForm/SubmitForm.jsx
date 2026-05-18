@@ -5,7 +5,8 @@ import api from "../../services/api";
 import "./SubmitForm.css";
 import useAuthStore from "../../store/AuthStore";
 
-function SubmitForm() {
+
+function SubmitForm({setIsAuthOpen}) {
   const { user } = useAuthStore();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -16,6 +17,13 @@ function SubmitForm() {
 const [preview, setPreview] = useState("");
 
 const handleImageChange = (e) => {
+
+  if (!user) {
+
+    setIsAuthOpen(true);
+  
+    return;
+  }
 
   const file = e.target.files[0];
 

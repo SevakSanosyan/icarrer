@@ -8,8 +8,11 @@ import Listings from "../components/Listings/Listings";
 import Pagination from "../components/Pagination/Pagination";
 import SubmitForm from "../components/SubmitForm/SubmitForm";
 import Footer from "../components/Footer/Footer";
+import AuthModal from "../components/AuthModal/AuthModal";
 
 function Home() {
+
+  const [isAuthOpen,setIsAuthOpen] = useState(false);
 
   const [listings, setListings] = useState([]);
 
@@ -50,7 +53,8 @@ function Home() {
   return (
     <div>
 
-      <Header />
+<Header
+  setIsAuthOpen={setIsAuthOpen}/>
 
       <Hero />
 
@@ -64,7 +68,18 @@ function Home() {
         setCurrentPage={setCurrentPage}
       />
 
-      <SubmitForm />
+<SubmitForm
+  setIsAuthOpen={setIsAuthOpen}/>
+
+<AuthModal
+
+isOpen={isAuthOpen}
+
+onClose={() =>
+  setIsAuthOpen(false)
+}
+
+/>
       
       <Footer />
 

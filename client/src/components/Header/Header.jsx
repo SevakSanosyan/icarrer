@@ -1,130 +1,197 @@
 import "./Header.css";
-import logo from "../../assets/images/logo3.png";
-import Instalogo from "../../assets/images/instagram.png";
-import Facebooklogo from "../../assets/images/facebook.png";
-import Telelogo from "../../assets/images/telegram.png";
-import useAuthStore from "../../store/AuthStore";
-import { useState } from "react";
-import AuthModal from "../AuthModal/AuthModal";
 
-function Header() {
+import {
+  useState,
+} from "react";
+
+import logo from "../../assets/images/logo3.png";
+
+import Instalogo from "../../assets/images/instagram.png";
+
+import Facebooklogo from "../../assets/images/facebook.png";
+
+import Telelogo from "../../assets/images/telegram.png";
+
+import profileIcon from "../../assets/images/profile.png";
+
+import useAuthStore
+from "../../store/AuthStore";
+
+function Header({
+
+  setIsAuthOpen,
+
+}) {
 
   const {
+
     token,
+
+    user,
+
     logout,
-  
+
   } = useAuthStore();
 
-  const [isAuthOpen, setIsAuthOpen] =
-    useState(false);
+  const [
 
+    isProfileOpen,
 
+    setIsProfileOpen,
+
+  ] = useState(false);
 
   const scrollToForm = () => {
 
     if (!token) {
-  
+
       setIsAuthOpen(true);
-  
+
       return;
     }
-  
+
     const formSection =
-      document.getElementById(
-        "submit-form"
-      );
-  
-    formSection.scrollIntoView({
-  
+    document.getElementById(
+      "submit-form"
+    );
+
+    formSection?.scrollIntoView({
+
       behavior: "smooth",
-  
+
     });
-  
   };
 
   return (
+
     <header className="header">
 
-<div className="header__logo">
+      <div className="header__logo">
 
-  <img
-    src={logo}
-    alt="logo"
-  />
+        <img
+          src={logo}
+          alt="logo"
+        />
 
-</div>
+      </div>
 
-<div className="header__socials">
+      <div className="header__socials">
 
-  <a href="https://www.facebook.com/profile.php?id=61589883387481 ">
-    <img
-      src={Facebooklogo}
-      alt="Facebook"
-    />
-  </a>
+        <a href="#">
 
-  <a href="#">
-    <img
-      src={Instalogo}
-      alt="Instagram"
-    />
-  </a>
+          <img
+            src={Instalogo}
+            alt=""
+          />
 
-  <a href="#">
-    <img
-      src={Telelogo}
-      alt="Telegram"
-    />
-  </a>
+        </a>
 
-</div>
+        <a href="#">
 
-      <button
-        className="header__button"
-        onClick={scrollToForm}
-      >
-        
-        ՏԵՂԱԴՐԵԼ ՀԱՅՏԱՐԱՐՈՒԹՅՈՒՆ
-      </button>
+          <img
+            src={Facebooklogo}
+            alt=""
+          />
 
-      {
+        </a>
 
-token ? (
+        <a href="#">
 
-  <button
-    onClick={logout}
-    className="header__button"
-  >
-    Դուրս գալ
-  </button>
+          <img
+            src={Telelogo}
+            alt=""
+          />
 
-) : (
+        </a>
 
-  <button
-    onClick={() =>
-      setIsAuthOpen(true)
-    }
+      </div>
 
-    className="header__button"
-  >
-    Մուտք
-  </button>
+      <div className="header__right">
 
-)
-}
+        <button
+          className="header__submit"
+          onClick={scrollToForm}
+        >
 
-      <AuthModal
+          Տեղադրել հայտարարություն
 
-isOpen={isAuthOpen}
+        </button>
 
-onClose={() =>
-  setIsAuthOpen(false)
-}
-/>
+        {
+
+          user ? (
+
+            <div className="header__profile">
+
+              <img
+
+                src={profileIcon}
+
+                alt="profile"
+
+                onClick={() =>
+
+                  setIsProfileOpen(
+                    !isProfileOpen
+                  )
+
+                }
+
+              />
+
+              {
+
+                isProfileOpen && (
+
+                  <div className="profile-dropdown">
+
+                    <button>
+
+                      Իմ հայտարարությունները
+
+                    </button>
+
+                    <button
+                      onClick={logout}
+                    >
+
+                      Դուրս գալ
+
+                    </button>
+
+                  </div>
+
+                )
+
+              }
+
+            </div>
+
+          ) : (
+
+            <button
+
+              className="header__button"
+
+              onClick={() =>
+
+                setIsAuthOpen(true)
+
+              }
+
+            >
+
+              Մուտք
+
+            </button>
+
+          )
+
+        }
+
+      </div>
 
     </header>
-
-
 
   );
 }
