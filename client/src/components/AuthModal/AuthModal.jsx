@@ -5,6 +5,11 @@ import {
   useState,
 } from "react";
 
+import {
+  Eye,
+  EyeOff,
+} from "lucide-react";
+
 import useAuthStore
 from "../../store/AuthStore";
 
@@ -40,6 +45,14 @@ function AuthModal({
   setRepeatPassword] =
   useState("");
 
+  const [showPassword,
+  setShowPassword] =
+  useState(false);
+
+  const [showRepeatPassword,
+  setShowRepeatPassword] =
+  useState(false);
+
   const [error,
   setError] =
   useState("");
@@ -65,6 +78,10 @@ function AuthModal({
       setPassword("");
 
       setRepeatPassword("");
+
+      setShowPassword(false);
+
+      setShowRepeatPassword(false);
     }
 
   }, [isOpen]);
@@ -253,31 +270,87 @@ function AuthModal({
             }
           />
 
-          <input
-            type="password"
-            placeholder="Գաղտնաբառ"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-          />
+          <div className="auth-password">
+
+            <input
+              type={
+                showPassword
+                ? "text"
+                : "password"
+              }
+              placeholder="Գաղտնաբառ"
+              value={password}
+              onChange={(e) =>
+                setPassword(
+                  e.target.value
+                )
+              }
+            />
+
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() =>
+                setShowPassword(
+                  !showPassword
+                )
+              }
+            >
+
+              {
+
+                showPassword
+                ? <EyeOff size={20} />
+                : <Eye size={20} />
+
+              }
+
+            </button>
+
+          </div>
 
           {
 
             isRegister && (
 
-              <input
-                type="password"
-                placeholder="Կրկնել գաղտնաբառը"
-                value={repeatPassword}
-                onChange={(e) =>
-                  setRepeatPassword(
-                    e.target.value
-                  )
-                }
-              />
+              <div className="auth-password">
+
+                <input
+                  type={
+                    showRepeatPassword
+                    ? "text"
+                    : "password"
+                  }
+                  placeholder="Կրկնել գաղտնաբառը"
+                  value={repeatPassword}
+                  onChange={(e) =>
+                    setRepeatPassword(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() =>
+                    setShowRepeatPassword(
+                      !showRepeatPassword
+                    )
+                  }
+                >
+
+                  {
+
+                    showRepeatPassword
+                    ? <EyeOff size={20} />
+                    : <Eye size={20} />
+
+                  }
+
+                </button>
+
+              </div>
 
             )
 

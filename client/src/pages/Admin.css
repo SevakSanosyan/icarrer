@@ -515,3 +515,16 @@
   }
 
 }
+
+.admin-card__email {
+
+  font-size: 14px;
+
+  color: #DB4A2B;
+
+  font-weight: 600;
+
+  margin-top: 10px;
+
+  word-break: break-word;
+}

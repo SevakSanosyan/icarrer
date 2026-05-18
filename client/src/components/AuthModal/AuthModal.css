@@ -235,3 +235,42 @@
   
     font-weight: 600;
   }
+
+  .auth-password {
+
+    position: relative;
+  
+    width: 100%;
+  }
+  
+  .auth-password input {
+  
+    padding-right: 55px;
+  }
+  
+  .password-toggle {
+  
+    position: absolute;
+  
+    top: 50%;
+    right: 16px;
+  
+    transform: translateY(-50%);
+  
+    border: none;
+  
+    background: transparent;
+  
+    cursor: pointer;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    color: #777;
+  }
+  
+  .password-toggle:hover {
+  
+    color: #DB4A2B;
+  }

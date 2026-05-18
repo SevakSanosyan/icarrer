@@ -157,6 +157,11 @@ function Admin() {
                     <p>
                       {listing.description}
                     </p>
+                    <p className="admin-card__email">
+
+  {listing.userEmail}
+
+</p>
                     <h4>
   {listing.userEmail}
 </h4>
