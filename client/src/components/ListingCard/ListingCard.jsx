@@ -1,10 +1,22 @@
+
 import "./ListingCard.css";
 
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+} from "react-router-dom";
 
 function ListingCard({ listing }) {
 
-  const navigate = useNavigate();
+  const isNew =
+  Date.now() -
+  new Date(
+    listing.createdAt
+  ).getTime()
+  <
+  3 * 24 * 60 * 60 * 1000;
+
+  const navigate =
+  useNavigate();
 
   return (
 
@@ -34,9 +46,13 @@ function ListingCard({ listing }) {
             {listing.title}
           </h2>
 
-          <span>
-            Նոր
-          </span>
+          {
+  isNew && (
+    <span>
+      Նոր
+    </span>
+  )
+}
 
         </div>
 
@@ -44,23 +60,43 @@ function ListingCard({ listing }) {
           {listing.description}
         </p>
 
+        {
+  listing.price && (
+
+    <h3 className="listing-price">
+
+      {listing.price} ֏
+
+    </h3>
+
+  )
+}
+
         <button
-  onClick={() =>
-    navigate(
-      `/listing/${listing._id}`
-    )
-  }
->
 
-  Կարդալ ավելին
+          onClick={(e) => {
 
-</button>
+            e.stopPropagation();
+
+            navigate(
+              `/listing/${listing._id}`
+            );
+
+          }}
+
+        >
+
+          Կարդալ ավելին
+
+        </button>
 
       </div>
 
     </div>
 
   );
+
 }
 
 export default ListingCard;
+

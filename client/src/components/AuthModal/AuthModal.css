@@ -274,3 +274,53 @@
   
     color: #DB4A2B;
   }
+
+
+
+.password-field {
+
+  position: relative;
+
+  width: 100%;
+}
+
+.password-field input {
+
+  padding-right: 55px;
+}
+
+.password-toggle {
+
+  position: absolute;
+
+  top: 50%;
+
+  right: 16px;
+
+  transform: translateY(-50%);
+
+  background: transparent;
+
+  border: none;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #777;
+
+  padding: 0;
+
+  width: auto !important;
+
+  height: auto !important;
+}
+
+.password-toggle:hover {
+
+  color: #DB4A2B;
+}

@@ -1,37 +1,71 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import ListingDetails from "./pages/ListingDetails";
-import SingleListing from "./pages/SingleListing";
+import MyListings from "./pages/MyListings";
+
+import ProtectedRoute
+from "./components/ProtectedRoute";
+
+import ProtectedAdminRoute
+from "./components/ProtectedAdminRoute";
 
 function App() {
+
   return (
+
     <BrowserRouter>
+
       <Routes>
-        <Route path="/" element={<Home />} />
+
         <Route
-  path="/admin"
-  element={
-    localStorage.getItem("admin")
-      ? <Admin />
-      : <Login />
-  }
-/>
+          path="/"
+          element={<Home />}
+        />
 
-<Route
-  path="/listing/:id"
-  element={<ListingDetails />}
-/>
+        <Route
+          path="/admin"
+          element={
 
-<Route
-  path="/listing/:id"
-  element={<SingleListing />}
-/>
+            <ProtectedAdminRoute>
+
+              <Admin />
+
+            </ProtectedAdminRoute>
+
+          }
+        />
+
+        <Route
+          path="/listing/:id"
+          element={<ListingDetails />}
+        />
+
+        <Route
+          path="/my-listings"
+          element={
+
+            <ProtectedRoute>
+
+              <MyListings />
+
+            </ProtectedRoute>
+
+          }
+        />
 
       </Routes>
+
     </BrowserRouter>
+
   );
 }
 
 export default App;
+

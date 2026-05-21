@@ -1,126 +1,274 @@
+
 .listing-card {
+
   width: 100%;
 
   display: flex;
-  gap: 30px;
 
-  background-color: white;
+  gap: 28px;
 
-  padding: 25px;
+  background: rgba(255,255,255,0.92);
 
-  border-radius: 24px;
+  backdrop-filter: blur(10px);
 
-  border: 1px solid #ececec;
+  padding: 24px;
 
-  transition: 0.3s;
+  border-radius: 28px;
 
-  box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+  border: 1px solid rgba(255,255,255,0.4);
+
+  transition: 0.35s ease;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  position: relative;
+
+  box-shadow:
+  0 10px 35px rgba(0,0,0,0.06);
+
 }
 
 .listing-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.listing-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+  linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.35),
+    transparent
+  );
+
+  transition: 0.7s;
+
+}
+
+.listing-card:hover::before {
+
+  left: 120%;
+
 }
 
 .listing-card__image {
-  width: 180px;
-  height: 180px;
 
-  border-radius: 20px;
+  width: 220px;
+
+  height: 220px;
+
+  border-radius: 24px;
 
   overflow: hidden;
 
   flex-shrink: 0;
 
-  background-color: #f2f2f2;
+  background: #f3f3f3;
+
 }
 
 .listing-card__image img {
+
   width: 100%;
   height: 100%;
 
   object-fit: cover;
+
+  transition: 0.5s;
+
+}
+
+.listing-card:hover
+.listing-card__image img {
+
+  transform: scale(1.08);
+
 }
 
 .listing-card__content {
+
   flex: 1;
 
   display: flex;
+
   flex-direction: column;
 
   justify-content: space-between;
 
-  gap: 20px;
+  gap: 22px;
+
 }
 
 .listing-card__top {
+
   display: flex;
-  align-items: center;
+
+  align-items: flex-start;
+
   justify-content: space-between;
 
   gap: 20px;
+
 }
 
 .listing-card__top h2 {
-  font-size: 32px;
 
-  color: #DB4A2B;
+  font-size: 34px;
+
+  color: #111;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
 }
 
 .listing-card__top span {
-  background-color: #DB4A2B;
+
+  background:
+  linear-gradient(
+    135deg,
+    #DB4A2B,
+    #ff7b5c
+  );
+
   color: white;
 
-  padding: 8px 14px;
+  padding: 10px 16px;
 
-  border-radius: 30px;
+  border-radius: 999px;
 
-  font-size: 14px;
+  font-size: 13px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+
+  box-shadow:
+  0 8px 20px rgba(219,74,43,0.25);
+
 }
 
 .listing-card__content p {
-  line-height: 1.8;
 
-  color: #444;
+  line-height: 1.9;
+
+  color: #555;
 
   font-size: 17px;
+
+  display: -webkit-box;
+
+  -webkit-line-clamp: 3;
+
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
 }
 
 .listing-card__content button {
-  width: 180px;
-  height: 50px;
 
-  background-color: #000;
+  width: 200px;
+
+  height: 54px;
+
+  border: none;
+
+  border-radius: 16px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #111,
+    #2a2a2a
+  );
+
   color: white;
 
-  border-radius: 12px;
+  font-size: 15px;
+
+  font-weight: 600;
 
   transition: 0.3s;
+
 }
 
 .listing-card__content button:hover {
-  background-color: #DB4A2B;
+
+  transform: translateY(-2px);
+
+  background:
+  linear-gradient(
+    135deg,
+    #DB4A2B,
+    #ff7b5c
+  );
+
+  box-shadow:
+  0 10px 25px rgba(219,74,43,0.3);
+
+}
+
+.listing-card__image img {
+  transition: 0.4s;
+}
+
+.listing-card:hover .listing-card__image img {
+  transform: scale(1.03);
+}
+
+.listing-price {
+  font-size: 28px;
+
+  color: #DB4A2B;
+
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {
 
   .listing-card {
+
     flex-direction: column;
+
   }
 
   .listing-card__image {
+
     width: 100%;
-    height: 250px;
+
+    height: 260px;
+
   }
 
   .listing-card__top {
+
     flex-direction: column;
+
     align-items: flex-start;
+
   }
 
   .listing-card__top h2 {
-    font-size: 26px;
+
+    font-size: 28px;
+
   }
 
 }
@@ -128,24 +276,38 @@
 @media (max-width: 500px) {
 
   .listing-card {
+
     padding: 18px;
+
+    border-radius: 22px;
+
   }
 
   .listing-card__image {
+
     height: 220px;
+
   }
 
   .listing-card__top h2 {
-    font-size: 22px;
+
+    font-size: 23px;
+
   }
 
   .listing-card__content p {
+
     font-size: 15px;
-    line-height: 1.6;
+
+    line-height: 1.7;
+
   }
 
   .listing-card__content button {
+
     width: 100%;
+
   }
 
 }
+

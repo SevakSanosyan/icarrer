@@ -1,0 +1,86 @@
+
+.my-listings {
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background: #f7f7f7;
+}
+
+.my-listings h1 {
+
+  font-size: 34px;
+
+  margin-bottom: 30px;
+}
+
+.my-listings__grid {
+
+  display: grid;
+
+  grid-template-columns:
+  repeat(auto-fill, minmax(280px, 1fr));
+
+  gap: 25px;
+}
+
+.my-card {
+
+  background: white;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  padding-bottom: 20px;
+
+  box-shadow:
+  0 10px 25px
+  rgba(0,0,0,0.08);
+}
+
+.my-card img {
+
+  width: 100%;
+
+  height: 220px;
+
+  object-fit: cover;
+}
+
+.my-card h2 {
+
+  font-size: 22px;
+
+  padding: 15px;
+}
+
+.my-card p {
+
+  padding: 0 15px;
+
+  color: #666;
+}
+
+.my-card span {
+
+  display: inline-block;
+
+  margin-left: 15px;
+  margin-top: 15px;
+
+  background: #DB4A2B;
+
+  color: white;
+
+  padding: 8px 14px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}

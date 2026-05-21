@@ -17,6 +17,13 @@ import profileIcon from "../../assets/images/profile.png";
 import useAuthStore
 from "../../store/AuthStore";
 
+
+import {
+  Link,
+} from "react-router-dom";
+
+
+
 function Header({
 
   setIsAuthOpen,
@@ -145,14 +152,29 @@ function Header({
 
                   <div className="profile-dropdown">
 
-                    <button>
 
-                      Իմ հայտարարությունները
+<Link
+  to="/my-listings"
+>
 
-                    </button>
+  <button>
+
+    Իմ հայտարարությունները
+
+  </button>
+
+</Link>
+
+
 
                     <button
-                      onClick={logout}
+                      onClick={() => {
+
+                        logout();
+                      
+                        window.location.href = "/";
+                      
+                      }}
                     >
 
                       Դուրս գալ

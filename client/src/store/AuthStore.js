@@ -1,145 +1,122 @@
 import { create }
 from "zustand";
 
-import api
-from "../services/api";
+import {
+  persist,
+} from "zustand/middleware";
+
+import api from "../services/api";
 
 const useAuthStore =
-create((set) => ({
+create(
 
-  token:
-  localStorage.getItem(
-    "token"
-  ) || null,
+  persist(
 
-  user:
-  JSON.parse(
-    localStorage.getItem(
-      "user"
-    )
-  ) || null,
-
-  login:
-  async (
-    email,
-    password
-  ) => {
-
-    try {
-
-      const res =
-      await api.post(
-
-        "/auth/login",
-
-        {
-          email,
-          password,
-        }
-
-      );
-
-      localStorage.setItem(
-        "token",
-        res.data.token
-      );
-
-      localStorage.setItem(
-        "user",
-
-        JSON.stringify(
-          res.data.user
-        )
-      );
-
-      set({
-
-        token:
-        res.data.token,
-
-        user:
-        res.data.user,
-
-      });
-
-    } catch (error) {
-
-      alert(
-        error.response.data.message
-      );
-    }
-  },
-
-  register:
-  async (
-    email,
-    password
-  ) => {
-
-    try {
-
-      const res =
-      await api.post(
-
-        "/auth/register",
-
-        {
-          email,
-          password,
-        }
-
-      );
-
-      localStorage.setItem(
-        "token",
-        res.data.token
-      );
-
-      localStorage.setItem(
-        "user",
-
-        JSON.stringify(
-          res.data.user
-        )
-      );
-
-      set({
-
-        token:
-        res.data.token,
-
-        user:
-        res.data.user,
-
-      });
-
-    } catch (error) {
-
-      alert(
-        error.response.data.message
-      );
-    }
-  },
-
-  logout: () => {
-
-    localStorage.removeItem(
-      "token"
-    );
-
-    localStorage.removeItem(
-      "user"
-    );
-
-    set({
+    (set) => ({
 
       token: null,
+
       user: null,
 
-    });
-  },
+      login: async (
+        email,
+        password
+      ) => {
 
-}));
+        try {
 
-export default
-useAuthStore;
+          const res =
+          await api.post(
+
+            "/auth/login",
+
+            {
+
+              email,
+              password,
+
+            }
+
+          );
+
+          set({
+
+            token:
+            res.data.token,
+
+            user:
+            res.data.user,
+
+          });
+
+          return true;
+
+        } catch (error) {
+
+          return false;
+        }
+      },
+
+      register: async (
+        email,
+        password
+      ) => {
+
+        try {
+
+          const res =
+          await api.post(
+
+            "/auth/register",
+
+            {
+
+              email,
+              password,
+
+            }
+
+          );
+
+          set({
+
+            token:
+            res.data.token,
+
+            user:
+            res.data.user,
+
+          });
+
+          return true;
+
+        } catch (error) {
+
+          return false;
+        }
+      },
+
+      logout: () => {
+
+        set({
+
+          token: null,
+
+          user: null,
+
+        });
+      },
+
+    }),
+
+    {
+
+      name: "auth-storage",
+
+    }
+
+  )
+
+);
+
+export default useAuthStore;

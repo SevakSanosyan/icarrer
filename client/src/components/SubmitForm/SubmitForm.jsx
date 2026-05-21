@@ -1,164 +1,275 @@
+
 import { useState } from "react";
 
 import api from "../../services/api";
 
 import "./SubmitForm.css";
-import useAuthStore from "../../store/AuthStore";
 
+import useAuthStore
+from "../../store/AuthStore";
 
-function SubmitForm({setIsAuthOpen}) {
-  const { user } = useAuthStore();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
-  const [success, setSuccess] =
+function SubmitForm({
+
+  setIsAuthOpen
+
+}) {
+
+  const { user } =
+  useAuthStore();
+
+  const [title,
+  setTitle] =
+  useState("");
+
+  const [description,
+  setDescription] =
+  useState("");
+
+  const [image,
+  setImage] =
+  useState(null);
+
+  const [success,
+  setSuccess] =
   useState(false);
 
-const [preview, setPreview] = useState("");
+  const [preview,
+  setPreview] =
+  useState("");
 
-const handleImageChange = (e) => {
+  const [price, setPrice] =
+useState("");
 
-  if (!user) {
+  const handleImageChange =
+  (e) => {
 
-    setIsAuthOpen(true);
-  
-    return;
-  }
+    if (!user) {
 
-  const file = e.target.files[0];
+      setIsAuthOpen(true);
 
-  setImage(file);
+      return;
+    }
 
-  setPreview(
-    URL.createObjectURL(file)
-  );
-};
+    const file =
+    e.target.files[0];
 
+    setImage(file);
 
-const handleSubmit = async (e) => {
+    setPreview(
 
-  e.preventDefault();
+      URL.createObjectURL(file)
 
-  try {
-
-    const formData = new FormData();
-
-    formData.append(
-      "userEmail",
-      user?.email
     );
+  };
 
-    formData.append("title", title);
+  const handleSubmit =
+  async (e) => {
 
-    formData.append(
-      "description",
-      description
-    );
+    e.preventDefault();
 
-    formData.append("image", image);
+    try {
 
-    await api.post(
-      "/listings",
-      formData
-    );
+      const authData =
+      JSON.parse(
 
-    setSuccess(true);
+        localStorage.getItem(
+          "auth-storage"
+        )
 
-setTimeout(() => {
-  setSuccess(false);
-}, 4000);
+      );
 
-    setTitle("");
-    setDescription("");
+      const token =
+      authData?.state?.token;
 
-    setImage(null);
+      const formData =
+      new FormData();
 
-    setPreview("");
+      formData.append(
+        "userEmail",
+        user?.email
+      );
 
-  } catch (error) {
+      formData.append(
+        "title",
+        title
+      );
 
-    console.log(error);
+      formData.append(
+        "description",
+        description
+      );
 
-  }
-};
+      formData.append(
+        "image",
+        image
+      );
+
+      formData.append(
+        "price",
+        price
+      );
+
+      await api.post(
+
+        "/listings",
+
+        formData,
+
+        {
+
+          headers: {
+
+            Authorization:
+            `Bearer ${token}`,
+
+            "Content-Type":
+            "multipart/form-data",
+
+          },
+
+        }
+
+      );
+
+      setSuccess(true);
+
+      setTimeout(() => {
+
+        setSuccess(false);
+
+      }, 4000);
+
+      setTitle("");
+      setDescription("");
+
+      setImage(null);
+
+      setPreview("");
+
+      setPrice("");
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
 
   return (
+
     <section
       className="submit-form"
       id="submit-form"
     >
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+      >
 
         <div className="submit-form__top">
 
-        <label className="submit-form__upload">
+          <label className="submit-form__upload">
 
-<input
-  type="file"
-  accept="image/*"
-  onChange={handleImageChange}
-  hidden
-/>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              hidden
+            />
 
-{preview ? (
+            {
 
-  <img
-    src={preview}
-    alt="preview"
-  />
+              preview ? (
 
-) : (
+                <img
+                  src={preview}
+                  alt="preview"
+                />
 
-  <span>
-    Upload Image
-  </span>
+              ) : (
 
-)}
+                <span>
+                  Upload Image
+                </span>
 
-</label>
+              )
+
+            }
+
+          </label>
 
           <input
             type="text"
             placeholder="Վերնագիր"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) =>
+              setTitle(
+                e.target.value
+              )
+            }
           />
 
         </div>
 
+        <input
+  type="number"
+  placeholder="Գին (ոչ պարտադիր)"
+  value={price}
+  onChange={(e) =>
+    setPrice(e.target.value)
+  }
+/>
+
         <textarea
           placeholder="Հայտարարություն"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) =>
+            setDescription(
+              e.target.value
+            )
+          }
         />
 
         <button type="submit">
+
           Ուղարկել
+
         </button>
+
         {
-  success && (
 
-    <div className="submit-success">
+          success && (
 
-      <h3>
-        Հայտարարությունը ուղարկվել է 🙂
-      </h3>
+            <div className="submit-success">
 
-      <p>
-        Ձեր հայտարարությունը
-        կհրապարակվի հաստատումից հետո։
-      </p>
+              <h3>
 
-    </div>
+                Հայտարարությունը ուղարկվել է 🙂
 
-  )
-}
+              </h3>
+
+              <p>
+
+                Ձեր հայտարարությունը
+                կհրապարակվի
+                հաստատումից հետո։
+
+              </p>
+
+            </div>
+
+          )
+
+        }
 
       </form>
 
     </section>
+
   );
+
 }
 
 export default SubmitForm;
+

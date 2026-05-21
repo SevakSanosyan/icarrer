@@ -16,6 +16,11 @@ const listingSchema = new mongoose.Schema({
     type: String,
   },
 
+  price: {
+    type: Number,
+    default: null,
+  },
+
   approved: {
     type: Boolean,
     default: false,
@@ -25,10 +30,9 @@ const listingSchema = new mongoose.Schema({
     type: String,
   },
 
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    expires: 2592000,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 
 }, {

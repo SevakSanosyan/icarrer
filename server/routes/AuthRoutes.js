@@ -1,3 +1,4 @@
+
 const express =
 require("express");
 
@@ -8,6 +9,7 @@ const {
 
   register,
   login,
+  forgotPassword,
 
 } = require(
   "../controllers/AuthController"
@@ -23,5 +25,11 @@ router.post(
   login
 );
 
+router.put(
+  "/forgot-password",
+  forgotPassword
+);
+
 module.exports =
 router;
+

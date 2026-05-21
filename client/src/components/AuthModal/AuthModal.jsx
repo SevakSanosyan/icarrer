@@ -33,6 +33,10 @@ function AuthModal({
   setIsRegister] =
   useState(false);
 
+  const [isForgot,
+  setIsForgot] =
+  useState(false);
+
   const [email,
   setEmail] =
   useState("");
@@ -82,6 +86,10 @@ function AuthModal({
       setShowPassword(false);
 
       setShowRepeatPassword(false);
+
+      setIsRegister(false);
+
+      setIsForgot(false);
     }
 
   }, [isOpen]);
@@ -123,7 +131,7 @@ function AuthModal({
     }
 
     if (
-      isRegister &&
+      (isRegister || isForgot) &&
       password !== repeatPassword
     ) {
 
@@ -137,6 +145,65 @@ function AuthModal({
     try {
 
       setLoading(true);
+
+      // FORGOT PASSWORD
+
+      if (isForgot) {
+
+        const res =
+        await fetch(
+
+          "http://localhost:5000/auth/forgot-password",
+
+          {
+
+            method: "PUT",
+
+            headers: {
+
+              "Content-Type":
+              "application/json",
+
+            },
+
+            body: JSON.stringify({
+
+              email,
+              password,
+
+            }),
+
+          }
+
+        );
+
+        if (res.ok) {
+
+          setSuccess(
+            "Գաղտնաբառը փոխվեց"
+          );
+
+          setTimeout(() => {
+
+            setIsForgot(false);
+
+            setPassword("");
+
+            setRepeatPassword("");
+
+          }, 1000);
+
+        } else {
+
+          setError(
+            "Օգտատեր չի գտնվել"
+          );
+        }
+
+        return;
+      }
+
+      // REGISTER
 
       if (isRegister) {
 
@@ -157,15 +224,13 @@ function AuthModal({
             onClose();
 
           }, 500);
-
-          setTimeout(() => {
-
-            setIsRegister(false);
-
-          }, 1000);
         }
 
-      } else {
+      }
+
+      // LOGIN
+
+      else {
 
         const success =
         await login(
@@ -220,9 +285,17 @@ function AuthModal({
         <h2>
 
           {
-            isRegister
+
+            isForgot
+
+            ? "Վերականգնել գաղտնաբառը"
+
+            : isRegister
+
             ? "Գրանցում"
+
             : "Մուտք"
+
           }
 
         </h2>
@@ -270,7 +343,7 @@ function AuthModal({
             }
           />
 
-          <div className="auth-password">
+          <div className="password-field">
 
             <input
               type={
@@ -300,7 +373,9 @@ function AuthModal({
               {
 
                 showPassword
+
                 ? <EyeOff size={20} />
+
                 : <Eye size={20} />
 
               }
@@ -311,9 +386,9 @@ function AuthModal({
 
           {
 
-            isRegister && (
+            (isRegister || isForgot) && (
 
-              <div className="auth-password">
+              <div className="password-field">
 
                 <input
                   type={
@@ -343,7 +418,9 @@ function AuthModal({
                   {
 
                     showRepeatPassword
+
                     ? <EyeOff size={20} />
+
                     : <Eye size={20} />
 
                   }
@@ -367,6 +444,10 @@ function AuthModal({
 
               ? "Սպասեք..."
 
+              : isForgot
+
+              ? "Փոխել գաղտնաբառը"
+
               : isRegister
 
               ? "Գրանցվել"
@@ -388,6 +469,8 @@ function AuthModal({
                 !isRegister
               );
 
+              setIsForgot(false);
+
               setError("");
 
               setSuccess("");
@@ -406,9 +489,30 @@ function AuthModal({
 
           </span>
 
-          <span>
+          <span
+            onClick={() => {
 
-            Մոռացել եք գաղտնաբառը
+              setIsForgot(
+                !isForgot
+              );
+
+              setIsRegister(false);
+
+              setError("");
+
+              setSuccess("");
+            }}
+          >
+
+            {
+
+              isForgot
+
+              ? "Վերադառնալ"
+
+              : "Մոռացել եք գաղտնաբառը"
+
+            }
 
           </span>
 

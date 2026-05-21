@@ -1,39 +1,55 @@
-const express = require("express");
 
-const router = express.Router();
+const express =
+require("express");
 
-const upload = require("../config/multer");
+const router =
+express.Router();
+
+const upload =
+require("../config/multer");
+
 
 const {
+
   createListing,
   getListings,
-  getPendingListings,
+  getAllListings,
   approveListing,
   deleteListing,
-  getListingById,
-  getAllListings,
   getSingleListing,
-} = require("../controllers/ListingController");
+  getMyListings,
+
+} = require(
+  "../controllers/ListingController"
+);
+
+
+
+const authMiddleware =
+require("../middleware/authMiddleware");
 
 router.post(
   "/",
+  authMiddleware,
   upload.single("image"),
   createListing
 );
+
+
+router.get(
+  "/",
+  getListings
+);
+
+
+
 
 router.get(
   "/admin/all",
   getAllListings
 );
 
-router.get(
-  "/pending",
-  getPendingListings
-);
 
-router.get("/", getListings);
-
-router.get("/:id", getListingById);
 
 router.put(
   "/approve/:id",
@@ -46,8 +62,16 @@ router.delete(
 );
 
 router.get(
+  "/my",
+  authMiddleware,
+  getMyListings
+);
+
+router.get(
   "/:id",
   getSingleListing
 );
 
-module.exports = router;
+module.exports =
+router;
+

@@ -1,6 +1,8 @@
 const Listing = require("../models/Listing");
 
-const createListing = async (req, res) => {
+
+const createListing =
+async (req, res) => {
 
   try {
 
@@ -8,10 +10,14 @@ const createListing = async (req, res) => {
       title,
       description,
       userEmail,
+      price,
     } = req.body;
 
-    const image = req.file
+    const image =
+    req.file
+
       ? `/uploads/${req.file.filename}`
+
       : "";
 
       const listing =
@@ -21,22 +27,33 @@ const createListing = async (req, res) => {
         description,
         image,
       
-        userEmail:
-        req.body.userEmail,
+        price:
+        price || null,
+      
+        userEmail,
+      
+        userId:
+        req.user.id,
       
       });
 
-    res.status(201).json(listing);
+    res.status(201).json(
+      listing
+    );
 
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
 
 };
+
 
 const getListings = async (req, res) => {
 
@@ -195,6 +212,41 @@ async (req, res) => {
 };
 
 
+const getMyListings =
+async (req, res) => {
+
+  try {
+
+    const listings =
+    await Listing.find({
+
+      userId:
+      req.user.id,
+
+    }).sort({
+
+      createdAt: -1,
+
+    });
+
+    res.json(listings);
+
+  } catch (error) {
+
+    res.status(500).json({
+
+      message:
+      error.message,
+
+    });
+
+  }
+
+};
+
+
+
+
 
 module.exports = {
   createListing,
@@ -205,4 +257,5 @@ module.exports = {
   getListingById,
   getAllListings,
   getSingleListing,
+  getMyListings,
 };

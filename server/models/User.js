@@ -19,6 +19,13 @@ const userSchema =
       default: "",
     },
 
+    role: {
+
+      type: String,
+    
+      default: "user",
+    
+    },
     
 
   });

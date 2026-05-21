@@ -1,113 +1,116 @@
 .single {
-
-  width: 100%;
-
-  min-height: 100vh;
-
-  padding: 60px 20px;
-
   max-width: 1300px;
 
-  margin: 0 auto;
+  margin: 120px auto 60px;
 
-  display: flex;
+  padding: 0 20px;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
 
   gap: 50px;
 }
 
 .single__image {
+  width: 100%;
 
-  flex: 1;
+  height: 600px;
 
-  display: flex;
+  border-radius: 30px;
 
-  align-items: flex-start;
+  overflow: hidden;
 
-  justify-content: center;
+  background: #f2f2f2;
+
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
 }
 
 .single__image img {
-
   width: 100%;
-
-  max-width: 600px;
-
-  border-radius: 28px;
+  height: 100%;
 
   object-fit: cover;
-
-  box-shadow:
-  0 10px 30px
-  rgba(0,0,0,0.08);
 }
 
 .single__content {
-
-  flex: 1;
-
   display: flex;
 
   flex-direction: column;
 
-  gap: 25px;
+  justify-content: space-between;
+
+  gap: 30px;
 }
 
-.single__content h1 {
+.single__top {
+  display: flex;
 
-  font-size: 42px;
+  align-items: center;
 
-  line-height: 1.1;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.single__top h1 {
+  font-size: 48px;
 
   color: #111;
 }
 
-.single__content p {
+.single__price {
+  background: #DB4A2B;
 
-  font-size: 17px;
+  color: white;
+
+  padding: 12px 20px;
+
+  border-radius: 16px;
+
+  font-size: 28px;
+
+  font-weight: 700;
+}
+
+.single__content p {
+  font-size: 19px;
 
   line-height: 1.9;
 
-  color: #555;
-
-  word-break: break-word;
+  color: #444;
 }
 
 .single__bottom {
-
-  margin-top: 20px;
-
   padding-top: 20px;
 
-  border-top:
-  1px solid #eee;
+  border-top: 1px solid #ececec;
 }
 
 .single__bottom span {
+  color: #777;
 
-  color: #DB4A2B;
-
-  font-weight: 700;
-
-  font-size: 15px;
+  font-size: 16px;
 }
 
 @media (max-width: 900px) {
 
   .single {
+    grid-template-columns: 1fr;
+  }
 
+  .single__image {
+    height: 400px;
+  }
+
+  .single__top {
     flex-direction: column;
 
-    padding: 40px 18px;
+    align-items: flex-start;
   }
 
-  .single__content h1 {
-
-    font-size: 30px;
-  }
-
-  .single__image img {
-
-    max-width: 100%;
+  .single__top h1 {
+    font-size: 34px;
   }
 
 }

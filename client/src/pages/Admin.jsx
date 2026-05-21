@@ -7,11 +7,14 @@ import "./Admin.css";
 function Admin() {
 
   const [listings, setListings] = useState([]);
+  
   const [activeTab, setActiveTab] =
   useState("pending");
 
   useEffect(() => {
+
     fetchListings();
+
   }, []);
 
   const fetchListings = async () => {
@@ -85,118 +88,118 @@ function Admin() {
 
       <div className="admin-tabs">
 
-<button
-  className={
-    activeTab === "pending"
-      ? "active-tab"
-      : ""
-  }
-  onClick={() =>
-    setActiveTab("pending")
-  }
->
-  Նոր հայտարարություններ
-</button>
+        <button
+          className={
+            activeTab === "pending"
+              ? "active-tab"
+              : ""
+          }
+          onClick={() =>
+            setActiveTab("pending")
+          }
+        >
+          Նոր հայտարարություններ
+        </button>
 
-<button
-  className={
-    activeTab === "approved"
-      ? "active-tab"
-      : ""
-  }
-  onClick={() =>
-    setActiveTab("approved")
-  }
->
-  Հայտարարություններ
-</button>
+        <button
+          className={
+            activeTab === "approved"
+              ? "active-tab"
+              : ""
+          }
+          onClick={() =>
+            setActiveTab("approved")
+          }
+        >
+          Հայտարարություններ
+        </button>
 
-</div>
+      </div>
 
-
-<div
-  className={`admin-columns ${
-    activeTab === "approved"
-      ? "show-approved"
-      : ""
-  }`}
->
+      <div
+        className={`admin-columns ${
+          activeTab === "approved"
+            ? "show-approved"
+            : ""
+        }`}
+      >
 
         <div className="admin-column">
 
           <h2 className="admin-column__title pending-title">
+
             Նոր հայտարարություններ
+
           </h2>
 
           <div className="admin__list">
 
             {
+
               pendingListings.map(
                 (listing) => (
 
-                <div
-                  key={listing._id}
-                  className="admin-card"
-                >
+                  <div
+                    key={listing._id}
+                    className="admin-card"
+                  >
 
-                  <div className="admin-card__image">
+                    <div className="admin-card__image">
 
-                    <img
-                      src={`http://localhost:5000${listing.image}`}
-                      alt={listing.title}
-                    />
+                      <img
+                        src={`http://localhost:5000${listing.image}`}
+                        alt={listing.title}
+                      />
 
-                  </div>
+                    </div>
 
-                  <div className="admin-card__content">
+                    <div className="admin-card__content">
 
-                    <h2>
-                      {listing.title}
-                    </h2>
+                      <h2>
+                        {listing.title}
+                      </h2>
 
-                    <p>
-                      {listing.description}
-                    </p>
-                    <p className="admin-card__email">
+                      <p>
+                        {listing.description}
+                      </p>
 
-  {listing.userEmail}
+                      <p className="admin-card__email">
 
-</p>
-                    <h4>
-  {listing.userEmail}
-</h4>
+                        {listing.userEmail}
 
-                    <div className="admin-card__buttons">
+                      </p>
 
-                      <button
-                        className="approve-btn"
-                        onClick={() =>
-                          approveListing(
-                            listing._id
-                          )
-                        }
-                      >
-                        Հաստատել
-                      </button>
+                      <div className="admin-card__buttons">
 
-                      <button
-                        className="reject-btn"
-                        onClick={() =>
-                          rejectListing(
-                            listing._id
-                          )
-                        }
-                      >
-                        Ջնջել
-                      </button>
+                        <button
+                          className="approve-btn"
+                          onClick={() =>
+                            approveListing(
+                              listing._id
+                            )
+                          }
+                        >
+                          Հաստատել
+                        </button>
+
+                        <button
+                          className="reject-btn"
+                          onClick={() =>
+                            rejectListing(
+                              listing._id
+                            )
+                          }
+                        >
+                          Ջնջել
+                        </button>
+
+                      </div>
 
                     </div>
 
                   </div>
 
-                </div>
-
-              ))
+                ))
             }
 
           </div>
@@ -206,59 +209,68 @@ function Admin() {
         <div className="admin-column">
 
           <h2 className="admin-column__title approved-title">
+
             Հայտարարություններ
+
           </h2>
 
           <div className="admin__list">
 
             {
+
               approvedListings.map(
                 (listing) => (
 
-                <div
-                  key={listing._id}
-                  className="admin-card"
-                >
+                  <div
+                    key={listing._id}
+                    className="admin-card"
+                  >
 
-                  <div className="admin-card__image">
+                    <div className="admin-card__image">
 
-                    <img
-                      src={`http://localhost:5000${listing.image}`}
-                      alt={listing.title}
-                    />
+                      <img
+                        src={`http://localhost:5000${listing.image}`}
+                        alt={listing.title}
+                      />
 
-                  </div>
+                    </div>
 
-                  <div className="admin-card__content">
+                    <div className="admin-card__content">
 
-                    <h2>
-                      {listing.title}
-                    </h2>
+                      <h2>
+                        {listing.title}
+                      </h2>
 
-                    <p>
-                      {listing.description}
-                    </p>
+                      <p>
+                        {listing.description}
+                      </p>
 
-                    <div className="admin-card__buttons">
+                      <p className="admin-card__email">
 
-                      <button
-                        className="reject-btn"
-                        onClick={() =>
-                          rejectListing(
-                            listing._id
-                          )
-                        }
-                      >
-                        Ջնջել
-                      </button>
+                        {listing.userEmail}
+
+                      </p>
+
+                      <div className="admin-card__buttons">
+
+                        <button
+                          className="reject-btn"
+                          onClick={() =>
+                            rejectListing(
+                              listing._id
+                            )
+                          }
+                        >
+                          Ջնջել
+                        </button>
+
+                      </div>
 
                     </div>
 
                   </div>
 
-                </div>
-
-              ))
+                ))
             }
 
           </div>

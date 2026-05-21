@@ -1,15 +1,31 @@
-import { useEffect, useState } from "react";
 
-import { useParams } from "react-router-dom";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import api from "../services/api";
+import {
+  useParams,
+} from "react-router-dom";
+
+import api
+from "../services/api";
+
+import Header
+from "../components/Header/Header";
 
 function ListingDetails() {
 
-  const { id } = useParams();
+  const { id } =
+  useParams();
 
-  const [listing, setListing] =
-    useState(null);
+  const [listing,
+  setListing] =
+  useState(null);
+
+  const [isAuthOpen,
+  setIsAuthOpen] =
+  useState(false);
 
   useEffect(() => {
 
@@ -17,71 +33,98 @@ function ListingDetails() {
 
   }, []);
 
-  const fetchListing = async () => {
+  const fetchListing =
+  async () => {
 
     try {
 
-      const res = await api.get(
+      const res =
+      await api.get(
         `/listings/${id}`
       );
 
-      setListing(res.data);
+      setListing(
+        res.data
+      );
 
     } catch (error) {
 
       console.log(error);
 
     }
+
   };
 
   if (!listing) {
 
-    return <h1>Loading...</h1>;
+    return (
+      <h1>
+        Loading...
+      </h1>
+    );
 
   }
 
   return (
-    <div
-      style={{
-        padding: "50px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
-    >
 
-      <img
-        src={`http://localhost:5000${listing.image}`}
-        alt=""
-        style={{
-          width: "100%",
-          maxHeight: "500px",
-          objectFit: "cover",
-          borderRadius: "20px",
-        }}
+    <>
+
+      <Header
+        setIsAuthOpen={
+          setIsAuthOpen
+        }
       />
 
-      <h1
+      <div
         style={{
-          marginTop: "30px",
-          fontSize: "42px",
-          color: "#DB4A2B",
+          padding: "50px",
+          maxWidth: "1200px",
+          margin: "0 auto",
         }}
       >
-        {listing.title}
-      </h1>
 
-      <p
-        style={{
-          marginTop: "20px",
-          lineHeight: "1.8",
-          fontSize: "18px",
-        }}
-      >
-        {listing.description}
-      </p>
+        <img
+          src={`http://localhost:5000${listing.image}`}
+          alt=""
+          style={{
+            width: "100%",
+            maxHeight: "500px",
+            objectFit: "cover",
+            borderRadius: "20px",
+          }}
+        />
 
-    </div>
+        <h1
+          style={{
+            marginTop: "30px",
+            fontSize: "42px",
+            color: "#DB4A2B",
+          }}
+        >
+
+          {listing.title}
+
+        </h1>
+
+        <p
+          style={{
+            marginTop: "20px",
+            lineHeight: "1.8",
+            fontSize: "18px",
+          }}
+        >
+
+          {listing.description}
+
+        </p>
+
+      </div>
+
+    </>
+
   );
+
 }
 
 export default ListingDetails;
+
