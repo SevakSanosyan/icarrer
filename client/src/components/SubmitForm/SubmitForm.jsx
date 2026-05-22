@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 import api from "../../services/api";
@@ -21,9 +20,25 @@ function SubmitForm({
   setTitle] =
   useState("");
 
+  const [qualifications,
+  setQualifications] =
+  useState("");
+
   const [description,
   setDescription] =
   useState("");
+
+  const [companyInfo,
+  setCompanyInfo] =
+  useState("");
+
+  const [price,
+  setPrice] =
+  useState("");
+
+  const [isContract,
+  setIsContract] =
+  useState(false);
 
   const [image,
   setImage] =
@@ -36,9 +51,6 @@ function SubmitForm({
   const [preview,
   setPreview] =
   useState("");
-
-  const [price, setPrice] =
-useState("");
 
   const handleImageChange =
   (e) => {
@@ -95,18 +107,35 @@ useState("");
       );
 
       formData.append(
+        "qualifications",
+        qualifications
+      );
+
+      formData.append(
         "description",
         description
       );
 
       formData.append(
-        "image",
-        image
+        "companyInfo",
+        companyInfo
       );
 
       formData.append(
         "price",
-        price
+        isContract
+        ? ""
+        : price
+      );
+
+      formData.append(
+        "isContract",
+        isContract
+      );
+
+      formData.append(
+        "image",
+        image
       );
 
       await api.post(
@@ -140,13 +169,20 @@ useState("");
       }, 4000);
 
       setTitle("");
+
+      setQualifications("");
+
       setDescription("");
+
+      setCompanyInfo("");
+
+      setPrice("");
+
+      setIsContract(false);
 
       setImage(null);
 
       setPreview("");
-
-      setPrice("");
 
     } catch (error) {
 
@@ -201,34 +237,106 @@ useState("");
 
           <input
             type="text"
-            placeholder="Վերնագիր"
+            placeholder="Անվանում"
             value={title}
             onChange={(e) =>
               setTitle(
                 e.target.value
               )
             }
+            required
           />
 
         </div>
 
-        <input
-  type="number"
-  placeholder="Գին (ոչ պարտադիր)"
-  value={price}
-  onChange={(e) =>
-    setPrice(e.target.value)
-  }
-/>
+        <textarea
+          placeholder="Անհրաժեշտ որակավորումներ"
+          value={qualifications}
+          onChange={(e) =>
+            setQualifications(
+              e.target.value
+            )
+          }
+          required
+        />
 
         <textarea
-          placeholder="Հայտարարություն"
+          placeholder="Աշխատանքի նկարագրություն"
           value={description}
           onChange={(e) =>
             setDescription(
               e.target.value
             )
           }
+          required
+        />
+
+        <div className="submit-form__salary">
+
+          <h3 className="submit-form__salary-title">
+            Աշխատավարձի չափ
+          </h3>
+
+          <div className="submit-form__salary-options">
+
+          <label className="submit-form__checkbox">
+
+<input
+  type="checkbox"
+  checked={isContract}
+  onChange={() =>
+    setIsContract(!isContract)
+  }
+/>
+
+<span className="submit-form__fake-check"></span>
+
+<span className="submit-form__checkbox-text">
+  Պայմանագրային
+</span>
+
+</label>
+
+            {
+
+              !isContract && (
+
+                <div className="submit-form__price-input">
+
+                  <input
+                    type="number"
+                    placeholder="Նշված աշխատավարձ"
+                    value={price}
+                    onChange={(e) =>
+                      setPrice(
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  <span>
+                    դրամ
+                  </span>
+
+                </div>
+
+              )
+
+            }
+
+          </div>
+
+        </div>
+
+        <textarea
+          placeholder="Տեղեկատվություն գործատուի մասին"
+          value={companyInfo}
+          onChange={(e) =>
+            setCompanyInfo(
+              e.target.value
+            )
+          }
+          required
         />
 
         <button type="submit">
@@ -272,4 +380,3 @@ useState("");
 }
 
 export default SubmitForm;
-

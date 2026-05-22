@@ -1,5 +1,5 @@
-const Listing = require("../models/Listing");
-
+const Listing =
+require("../models/Listing");
 
 const createListing =
 async (req, res) => {
@@ -7,10 +7,21 @@ async (req, res) => {
   try {
 
     const {
+
       title,
+
+      qualifications,
+
       description,
+
+      companyInfo,
+
+      salaryType,
+
+      salary,
+
       userEmail,
-      price,
+
     } = req.body;
 
     const image =
@@ -20,22 +31,29 @@ async (req, res) => {
 
       : "";
 
-      const listing =
-      await Listing.create({
-      
-        title,
-        description,
-        image,
-      
-        price:
-        price || null,
-      
-        userEmail,
-      
-        userId:
-        req.user.id,
-      
-      });
+    const listing =
+    await Listing.create({
+
+      title,
+
+      qualifications,
+
+      description,
+
+      companyInfo,
+
+      salaryType,
+
+      salary,
+
+      image,
+
+      userEmail,
+
+      userId:
+      req.user.id,
+
+    });
 
     res.status(201).json(
       listing
@@ -54,33 +72,74 @@ async (req, res) => {
 
 };
 
-
 const getListings = async (req, res) => {
 
   try {
 
-    const listings = await Listing.find({
+    const {
+      sort,
+    } = req.query;
+
+    let sortOption = {
+      createdAt: -1,
+    };
+
+    if (sort === "old") {
+
+      sortOption = {
+        createdAt: 1,
+      };
+
+    }
+
+    if (sort === "salary-high") {
+
+      sortOption = {
+        price: -1,
+      };
+
+    }
+
+    if (sort === "salary-low") {
+
+      sortOption = {
+        price: 1,
+      };
+
+    }
+
+    const listings =
+    await Listing.find({
+
       approved: true,
-    });
+
+    }).sort(sortOption);
 
     res.json(listings);
 
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
 
 };
 
-const getPendingListings = async (req, res) => {
+const getPendingListings =
+async (req, res) => {
 
   try {
 
-    const listings = await Listing.find({
+    const listings =
+    await Listing.find({
+
       approved: false,
+
     });
 
     res.json(listings);
@@ -88,39 +147,55 @@ const getPendingListings = async (req, res) => {
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
 
 };
 
-const approveListing = async (req, res) => {
+const approveListing =
+async (req, res) => {
 
   try {
 
     await Listing.findByIdAndUpdate(
+
       req.params.id,
+
       {
+
         approved: true,
+
       }
+
     );
 
     res.json({
-      message: "Approved",
+
+      message:
+      "Approved",
+
     });
 
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
 
 };
 
-const deleteListing = async (req, res) => {
+const deleteListing =
+async (req, res) => {
 
   try {
 
@@ -129,61 +204,72 @@ const deleteListing = async (req, res) => {
     );
 
     res.json({
-      message: "Deleted",
+
+      message:
+      "Deleted",
+
     });
 
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
 
 };
 
-const getListingById = async (
-  req,
-  res
-) => {
+const getListingById =
+async (req, res) => {
 
   try {
 
     const listing =
-      await Listing.findById(
-        req.params.id
-      );
+    await Listing.findById(
+      req.params.id
+    );
 
     res.json(listing);
 
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
 
 };
 
-
-const getAllListings = async (
-  req,
-  res
-) => {
+const getAllListings =
+async (req, res) => {
 
   try {
 
     const listings =
-      await Listing.find()
-      .sort({ createdAt: -1 });
+    await Listing.find()
+    .sort({
+
+      createdAt: -1,
+
+    });
 
     res.json(listings);
 
   } catch (error) {
 
     res.status(500).json({
-      message: error.message,
+
+      message:
+      error.message,
+
     });
 
   }
@@ -205,12 +291,15 @@ async (req, res) => {
   } catch (error) {
 
     res.status(500).json({
+
       message:
       error.message,
-    });
-  }
-};
 
+    });
+
+  }
+
+};
 
 const getMyListings =
 async (req, res) => {
@@ -244,18 +333,24 @@ async (req, res) => {
 
 };
 
-
-
-
-
 module.exports = {
+
   createListing,
+
   getListings,
+
   getPendingListings,
+
   approveListing,
+
   deleteListing,
+
   getListingById,
+
   getAllListings,
+
   getSingleListing,
+
   getMyListings,
+
 };

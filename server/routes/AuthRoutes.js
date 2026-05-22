@@ -10,7 +10,7 @@ const {
   register,
   login,
   forgotPassword,
-
+  getUsers,
 } = require(
   "../controllers/AuthController"
 );
@@ -28,6 +28,11 @@ router.post(
 router.put(
   "/forgot-password",
   forgotPassword
+);
+
+router.get(
+  "/users",
+  getUsers
 );
 
 module.exports =

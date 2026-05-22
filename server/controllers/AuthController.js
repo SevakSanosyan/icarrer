@@ -15,6 +15,7 @@ async (req, res) => {
     const {
       email,
       password,
+      phone,
     } = req.body;
 
     const existingUser =
@@ -48,6 +49,8 @@ async (req, res) => {
       password:
       hashedPassword,
 
+      phone,
+
     });
 
     const token =
@@ -74,6 +77,8 @@ async (req, res) => {
         email: user.email,
 
         role: user.role,
+
+        phone: user.phone,
 
       },
 
@@ -237,10 +242,33 @@ async (req, res) => {
   }
 };
 
+const getUsers =
+async (req, res) => {
+
+  try {
+
+    const users =
+    await User.find()
+    .select("-password");
+
+    res.json(users);
+
+  } catch (error) {
+
+    res.status(500).json({
+
+      message:
+      error.message,
+
+    });
+
+  }
+};
+
 module.exports = {
 
   register,
   login,
   forgotPassword,
-
+  getUsers,
 };

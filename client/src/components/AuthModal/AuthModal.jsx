@@ -69,6 +69,10 @@ function AuthModal({
   setLoading] =
   useState(false);
 
+  const [phone,
+    setPhone] =
+    useState("");
+
   useEffect(() => {
 
     if (!isOpen) {
@@ -90,6 +94,8 @@ function AuthModal({
       setIsRegister(false);
 
       setIsForgot(false);
+
+      setPhone("");
     }
 
   }, [isOpen]);
@@ -153,7 +159,7 @@ function AuthModal({
         const res =
         await fetch(
 
-          "http://localhost:5000/auth/forgot-password",
+          "http://localhost:5000/api/auth/forgot-password",
 
           {
 
@@ -203,30 +209,38 @@ function AuthModal({
         return;
       }
 
-      // REGISTER
+// REGISTER
 
-      if (isRegister) {
+if (isRegister) {
 
-        const success =
-        await register(
-          email,
-          password
-        );
+  const success =
+  await register(
+    email,
+    password,
+    phone
+  );
 
-        if (success) {
+  if (success) {
 
-          setSuccess(
-            "Գրանցումը հաջողվեց"
-          );
+    setSuccess(
+      "Գրանցումը հաջողվեց"
+    );
 
-          setTimeout(() => {
+    setTimeout(() => {
 
-            onClose();
+      onClose();
 
-          }, 500);
-        }
+    }, 500);
 
-      }
+  } else {
+
+    setError(
+      "Գրանցումը չհաջողվեց"
+    );
+
+  }
+
+}
 
       // LOGIN
 
@@ -342,6 +356,25 @@ function AuthModal({
               )
             }
           />
+
+{
+
+isRegister && !isForgot &&  (
+
+  <input
+    type="text"
+    placeholder="Հեռախոսահամար"
+    value={phone}
+    onChange={(e) =>
+      setPhone(
+        e.target.value
+      )
+    }
+  />
+
+)
+
+}
 
           <div className="password-field">
 

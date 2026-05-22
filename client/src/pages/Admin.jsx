@@ -11,9 +11,15 @@ function Admin() {
   const [activeTab, setActiveTab] =
   useState("pending");
 
+  const [users,
+    setUsers] =
+    useState([]);
+
   useEffect(() => {
 
     fetchListings();
+
+    fetchUsers();
 
   }, []);
 
@@ -33,6 +39,27 @@ function Admin() {
 
     }
   };
+
+  const fetchUsers =
+async () => {
+
+  try {
+
+    const res =
+    await api.get(
+      "/auth/users"
+    );
+
+    setUsers(
+      res.data
+    );
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+};
 
   const approveListing = async (id) => {
 
@@ -276,6 +303,46 @@ function Admin() {
           </div>
 
         </div>
+
+        <div className="admin-column">
+
+  <h2 className="admin-column__title">
+    Օգտատերեր
+  </h2>
+
+  <div className="admin__list">
+
+    {
+
+      users.map(
+        (user) => (
+
+        <div
+          key={user._id}
+          className="admin-card"
+        >
+
+          <div className="admin-card__content">
+
+            <h3>
+              {user.email}
+            </h3>
+
+            <p>
+              {user.phone}
+            </p>
+
+          </div>
+
+        </div>
+
+      ))
+
+    }
+
+  </div>
+
+</div>
 
       </div>
 
