@@ -26,9 +26,15 @@ import Footer from
 import AuthModal from
 "../components/AuthModal/AuthModal";
 
+import useAuthStore
+from "../store/AuthStore";
+
 import "./Home.css";
 
 function Home() {
+
+  const { user } =
+useAuthStore();
 
   const [
     isAuthOpen,
@@ -66,28 +72,33 @@ function Home() {
 
   }, [sort]);
 
+  const [
+    search,
+    setSearch
+  ] = useState("");
+
   const fetchListings =
   async () => {
-
+  
     try {
-
+  
       const res =
       await api.get(
-
-        `/listings?sort=${sort}`
-
+  
+        `/listings?sort=${sort}&search=${search}`
+  
       );
-
+  
       setListings(
         res.data
       );
-
+  
     } catch (error) {
-
+  
       console.log(error);
-
+  
     }
-
+  
   };
 
   const lastIndex =
@@ -117,11 +128,7 @@ function Home() {
 
     <div>
 
-      <Header
-        setIsAuthOpen={
-          setIsAuthOpen
-        }
-      />
+
 
       <Hero />
 
@@ -141,6 +148,22 @@ function Home() {
         </div>
 
         <div className="home-filter__right">
+
+        <input
+  type="text"
+  placeholder="Փնտրել..."
+  value={search}
+  onChange={(e) => {
+
+    setSearch(
+      e.target.value
+    );
+
+    setCurrentPage(1);
+
+  }}
+  className="home-search"
+/>
 
           <select
             value={sort}
@@ -185,11 +208,19 @@ function Home() {
         }
       />
 
-      <SubmitForm
-        setIsAuthOpen={
-          setIsAuthOpen
-        }
-      />
+{
+
+user && (
+
+  <SubmitForm
+    setIsAuthOpen={
+      setIsAuthOpen
+    }
+  />
+
+)
+
+}
 
       <AuthModal
 
@@ -201,7 +232,7 @@ function Home() {
 
       />
 
-      <Footer />
+ 
 
     </div>
 

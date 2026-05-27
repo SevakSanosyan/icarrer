@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Routes,
@@ -6,9 +5,20 @@ import {
 } from "react-router-dom";
 
 import Home from "./pages/Home";
+
 import Admin from "./pages/Admin";
-import ListingDetails from "./pages/ListingDetails";
-import MyListings from "./pages/MyListings";
+
+import ListingDetails
+from "./pages/ListingDetails";
+
+import MyListings
+from "./pages/MyListings";
+
+import Header
+from "./components/Header/Header";
+
+import Footer
+from "./components/Footer/Footer";
 
 import ProtectedRoute
 from "./components/ProtectedRoute";
@@ -21,6 +31,8 @@ function App() {
   return (
 
     <BrowserRouter>
+
+      <Header />
 
       <Routes>
 
@@ -62,10 +74,12 @@ function App() {
 
       </Routes>
 
+      <Footer />
+
     </BrowserRouter>
 
   );
+
 }
 
 export default App;
-

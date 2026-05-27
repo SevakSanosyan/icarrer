@@ -13,14 +13,18 @@ const {
 
   createListing,
   getListings,
-  getAllListings,
+  getPendingListings,
   approveListing,
   deleteListing,
+  getListingById,
+  getAllListings,
   getSingleListing,
   getMyListings,
+  updateListing,
+  removeListing,
 
 } = require(
-  "../controllers/ListingController"
+  "../controllers/listingController"
 );
 
 
@@ -70,6 +74,18 @@ router.get(
 router.get(
   "/:id",
   getSingleListing
+);
+
+router.put(
+  "/:id",
+  authMiddleware,
+  updateListing
+);
+
+router.delete(
+  "/:id",
+  authMiddleware,
+  removeListing
 );
 
 module.exports =

@@ -2,6 +2,8 @@ import "./Header.css";
 
 import {
   useState,
+  useEffect,
+  useRef,
 } from "react";
 
 import logo from "../../assets/images/logo3.png";
@@ -14,15 +16,13 @@ import Telelogo from "../../assets/images/telegram.png";
 
 import profileIcon from "../../assets/images/profile.png";
 
-import useAuthStore
-from "../../store/AuthStore";
-
+import useAuthStore from "../../store/AuthStore";
 
 import {
+  useNavigate,
+  useLocation,
   Link,
 } from "react-router-dom";
-
-
 
 function Header({
 
@@ -48,32 +48,114 @@ function Header({
 
   ] = useState(false);
 
-  const scrollToForm = () => {
+  const navigate =
+  useNavigate();
+
+  const location =
+  useLocation();
+
+  const dropdownRef =
+  useRef(null);
+
+  useEffect(() => {
+
+    const handleClickOutside =
+    (event) => {
+
+      if (
+
+        dropdownRef.current &&
+
+        !dropdownRef.current.contains(
+          event.target
+        )
+
+      ) {
+
+        setIsProfileOpen(false);
+
+      }
+
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+
+    };
+
+  }, []);
+
+  const handleSubmitClick =
+  () => {
 
     if (!token) {
 
       setIsAuthOpen(true);
 
       return;
+
     }
 
-    const formSection =
-    document.getElementById(
-      "submit-form"
-    );
+    if (
+      location.pathname !== "/"
+    ) {
 
-    formSection?.scrollIntoView({
+      navigate("/");
 
-      behavior: "smooth",
+      setTimeout(() => {
 
-    });
+        const element =
+        document.getElementById(
+          "submit-form"
+        );
+
+        element?.scrollIntoView({
+
+          behavior: "smooth",
+
+        });
+
+      }, 150);
+
+    }
+
+    else {
+
+      const element =
+      document.getElementById(
+        "submit-form"
+      );
+
+      element?.scrollIntoView({
+
+        behavior: "smooth",
+
+      });
+
+    }
+
   };
 
   return (
 
     <header className="header">
 
-      <div className="header__logo">
+      <div
+        className="header__logo"
+        onClick={() => navigate("/")}
+        style={{
+          cursor: "pointer",
+        }}
+      >
 
         <img
           src={logo}
@@ -117,7 +199,7 @@ function Header({
 
         <button
           className="header__submit"
-          onClick={scrollToForm}
+          onClick={handleSubmitClick}
         >
 
           Տեղադրել հայտարարություն
@@ -128,7 +210,10 @@ function Header({
 
           user ? (
 
-            <div className="header__profile">
+            <div
+              className="header__profile"
+              ref={dropdownRef}
+            >
 
               <img
 
@@ -152,28 +237,45 @@ function Header({
 
                   <div className="profile-dropdown">
 
+                    <Link
+                      to="/my-listings"
+                    >
 
-<Link
-  to="/my-listings"
->
+                      <button>
 
-  <button>
+                        Իմ հայտարարությունները
 
-    Իմ հայտարարությունները
+                      </button>
 
-  </button>
+                    </Link>
 
-</Link>
+                    {
 
+                      user?.isAdmin && (
 
+                        <Link
+                          to="/admin"
+                        >
+
+                          <button>
+
+                            Admin Panel
+
+                          </button>
+
+                        </Link>
+
+                      )
+
+                    }
 
                     <button
                       onClick={() => {
 
                         logout();
-                      
+
                         window.location.href = "/";
-                      
+
                       }}
                     >
 

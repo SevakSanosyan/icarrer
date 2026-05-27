@@ -1,4 +1,3 @@
-
 import "./ListingCard.css";
 
 import {
@@ -47,30 +46,88 @@ function ListingCard({ listing }) {
           </h2>
 
           {
-  isNew && (
-    <span>
-      Նոր
-    </span>
-  )
-}
+
+            isNew && (
+
+              <span>
+                Նոր
+              </span>
+
+            )
+
+          }
 
         </div>
 
         <p>
-          {listing.description}
+
+          <strong>
+            Որակավորումներ։
+          </strong>
+
+          {" "}
+
+          {listing.qualifications}
+
         </p>
 
-        {
-  listing.price && (
+        <p>
 
-    <h3 className="listing-price">
+          <strong>
+            Նկարագրություն։
+          </strong>
 
-      {listing.price} ֏
+          {" "}
 
-    </h3>
+          {listing.description}
 
-  )
-}
+        </p>
+
+        <p>
+
+          <strong>
+            Գործատու։
+          </strong>
+
+          {" "}
+
+          {listing.employerInfo}
+
+        </p>
+
+        <div className="listing-card__salary">
+
+          {
+
+            listing.isContract
+
+            ? (
+
+              <h3 className="listing-price">
+
+                Պայմանագրային
+
+              </h3>
+
+            )
+
+            : (
+
+              listing.price && (
+
+                <h3 className="listing-price">
+
+                  {listing.price} ֏
+
+                </h3>
+
+              )
+
+            )
+
+          }
+
+        </div>
 
         <button
 
@@ -99,4 +156,3 @@ function ListingCard({ listing }) {
 }
 
 export default ListingCard;
-

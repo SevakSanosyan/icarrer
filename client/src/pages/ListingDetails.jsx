@@ -1,4 +1,3 @@
-
 import {
   useEffect,
   useState,
@@ -11,8 +10,9 @@ import {
 import api
 from "../services/api";
 
-import Header
-from "../components/Header/Header";
+
+
+import "./ListingDetails.css";
 
 function ListingDetails() {
 
@@ -31,7 +31,7 @@ function ListingDetails() {
 
     fetchListing();
 
-  }, []);
+  }, [id]);
 
   const fetchListing =
   async () => {
@@ -58,7 +58,7 @@ function ListingDetails() {
   if (!listing) {
 
     return (
-      <h1>
+      <h1 className="loading">
         Loading...
       </h1>
     );
@@ -69,56 +69,119 @@ function ListingDetails() {
 
     <>
 
-      <Header
-        setIsAuthOpen={
-          setIsAuthOpen
-        }
-      />
 
-      <div
-        style={{
-          padding: "50px",
-          maxWidth: "1200px",
-          margin: "0 auto",
-        }}
-      >
 
-        <img
-          src={`http://localhost:5000${listing.image}`}
-          alt=""
-          style={{
-            width: "100%",
-            maxHeight: "500px",
-            objectFit: "cover",
-            borderRadius: "20px",
-          }}
-        />
+      <section className="single">
 
-        <h1
-          style={{
-            marginTop: "30px",
-            fontSize: "42px",
-            color: "#DB4A2B",
-          }}
-        >
+        <div className="single__image">
 
-          {listing.title}
+          <img
+            src={`http://localhost:5000${listing.image}`}
+            alt={listing.title}
+          />
 
-        </h1>
+        </div>
 
-        <p
-          style={{
-            marginTop: "20px",
-            lineHeight: "1.8",
-            fontSize: "18px",
-          }}
-        >
+        <div className="single__content">
 
-          {listing.description}
+          <div className="single__top">
 
-        </p>
+            <h1>
+              {listing.title}
+            </h1>
 
-      </div>
+            {
+
+              listing.isContract ? (
+
+                <div className="single__price contract">
+
+                  Պայմանագրային
+
+                </div>
+
+              ) : (
+
+                listing.price && (
+
+                  <div className="single__price">
+
+                    {listing.price} ֏
+
+                  </div>
+
+                )
+
+              )
+
+            }
+
+          </div>
+
+          <div className="single__block">
+
+            <h3>
+              Աշխատանքի նկարագրություն
+            </h3>
+
+            <p>
+              {listing.description}
+            </p>
+
+          </div>
+
+          <div className="single__block">
+
+            <h3>
+              Անհրաժեշտ որակավորումներ
+            </h3>
+
+            <p>
+              {listing.qualifications}
+            </p>
+
+          </div>
+
+          <div className="single__block">
+
+            <h3>
+              Գործատուի մասին
+            </h3>
+
+            <p>
+              {listing.employerInfo}
+            </p>
+
+          </div>
+
+          <div className="single__bottom">
+
+<span>
+
+  📧 {listing.userEmail}
+
+</span>
+
+<div className="single__bottom-price">
+
+  {
+
+    listing.isContract
+
+    ? "Պայմանագրային"
+
+    : `${listing.price} ֏`
+
+  }
+
+</div>
+
+</div>
+        </div>
+
+      </section>
+
+
 
     </>
 
@@ -127,4 +190,3 @@ function ListingDetails() {
 }
 
 export default ListingDetails;
-

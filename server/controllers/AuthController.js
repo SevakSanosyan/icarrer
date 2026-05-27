@@ -243,13 +243,17 @@ async (req, res) => {
 };
 
 const getUsers =
+require("../models/User");
+
 async (req, res) => {
 
   try {
 
     const users =
     await User.find()
-    .select("-password");
+    .select(
+      "email phone"
+    );
 
     res.json(users);
 
@@ -263,7 +267,9 @@ async (req, res) => {
     });
 
   }
+
 };
+
 
 module.exports = {
 

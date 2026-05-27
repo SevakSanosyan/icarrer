@@ -9,26 +9,18 @@ async (req, res) => {
     const {
 
       title,
-
       qualifications,
-
       description,
-
-      companyInfo,
-
-      salaryType,
-
-      salary,
-
+      employerInfo,
+      price,
+      isContract,
       userEmail,
 
     } = req.body;
 
     const image =
     req.file
-
       ? `/uploads/${req.file.filename}`
-
       : "";
 
     const listing =
@@ -40,11 +32,12 @@ async (req, res) => {
 
       description,
 
-      companyInfo,
+      employerInfo,
 
-      salaryType,
+      price:
+      isContract ? 0 : price,
 
-      salary,
+      isContract,
 
       image,
 
@@ -61,6 +54,8 @@ async (req, res) => {
 
   } catch (error) {
 
+    console.log(error);
+
     res.status(500).json({
 
       message:
@@ -72,12 +67,14 @@ async (req, res) => {
 
 };
 
-const getListings = async (req, res) => {
+const getListings =
+async (req, res) => {
 
   try {
 
     const {
       sort,
+      search,
     } = req.query;
 
     let sortOption = {
@@ -108,12 +105,49 @@ const getListings = async (req, res) => {
 
     }
 
-    const listings =
-    await Listing.find({
-
+    let filter = {
       approved: true,
+    };
 
-    }).sort(sortOption);
+    if (search && search.trim() !== "") {
+
+      filter.$or = [
+
+        {
+          title: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          description: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          qualifications: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          employerInfo: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+      ];
+
+    }
+
+    const listings =
+    await Listing.find(filter)
+    .sort(sortOption);
 
     res.json(listings);
 
@@ -139,6 +173,10 @@ async (req, res) => {
     await Listing.find({
 
       approved: false,
+
+    }).sort({
+
+      createdAt: -1,
 
     });
 
@@ -167,9 +205,7 @@ async (req, res) => {
       req.params.id,
 
       {
-
         approved: true,
-
       }
 
     );
@@ -209,31 +245,6 @@ async (req, res) => {
       "Deleted",
 
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-
-      message:
-      error.message,
-
-    });
-
-  }
-
-};
-
-const getListingById =
-async (req, res) => {
-
-  try {
-
-    const listing =
-    await Listing.findById(
-      req.params.id
-    );
-
-    res.json(listing);
 
   } catch (error) {
 
@@ -333,6 +344,112 @@ async (req, res) => {
 
 };
 
+const updateListing =
+async (req, res) => {
+
+  try {
+
+    const listing =
+    await Listing.findById(
+      req.params.id
+    );
+
+    if (!listing) {
+
+      return res.status(404).json({
+        message: "Not found",
+      });
+
+    }
+
+    if (
+      listing.userId.toString()
+      !== req.user.id
+    ) {
+
+      return res.status(403).json({
+        message: "Forbidden",
+      });
+
+    }
+
+    listing.title =
+    req.body.title;
+
+    listing.description =
+    req.body.description;
+
+    listing.qualifications =
+    req.body.qualifications;
+
+    listing.employerInfo =
+    req.body.employerInfo;
+
+    listing.price =
+    req.body.price;
+
+    listing.isContract =
+    req.body.isContract;
+
+    await listing.save();
+
+    res.json(listing);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+
+};
+
+const removeListing =
+async (req, res) => {
+
+  try {
+
+    const listing =
+    await Listing.findById(
+      req.params.id
+    );
+
+    if (!listing) {
+
+      return res.status(404).json({
+        message: "Not found",
+      });
+
+    }
+
+    if (
+      listing.userId.toString()
+      !== req.user.id
+    ) {
+
+      return res.status(403).json({
+        message: "Forbidden",
+      });
+
+    }
+
+    await listing.deleteOne();
+
+    res.json({
+      message: "Deleted",
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+
+};
+
 module.exports = {
 
   createListing,
@@ -345,12 +462,14 @@ module.exports = {
 
   deleteListing,
 
-  getListingById,
-
   getAllListings,
 
   getSingleListing,
 
   getMyListings,
+
+  updateListing,
+
+  removeListing,
 
 };

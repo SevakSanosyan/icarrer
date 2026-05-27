@@ -2,18 +2,24 @@ import { useEffect, useState } from "react";
 
 import api from "../services/api";
 
+
+
 import "./Admin.css";
 
 function Admin() {
 
-  const [listings, setListings] = useState([]);
-  
+  const [listings, setListings] =
+  useState([]);
+
+  const [users, setUsers] =
+  useState([]);
+
   const [activeTab, setActiveTab] =
   useState("pending");
 
-  const [users,
-    setUsers] =
-    useState([]);
+  const [isAuthOpen,
+  setIsAuthOpen] =
+  useState(false);
 
   useEffect(() => {
 
@@ -23,11 +29,13 @@ function Admin() {
 
   }, []);
 
-  const fetchListings = async () => {
+  const fetchListings =
+  async () => {
 
     try {
 
-      const res = await api.get(
+      const res =
+      await api.get(
         "/listings/admin/all"
       );
 
@@ -38,35 +46,36 @@ function Admin() {
       console.log(error);
 
     }
+
   };
 
   const fetchUsers =
-async () => {
+  async () => {
 
-  try {
+    try {
 
-    const res =
-    await api.get(
-      "/auth/users"
-    );
+      const res =
+      await api.get(
+        "/auth/users"
+      );
 
-    setUsers(
-      res.data
-    );
+      setUsers(res.data);
 
-  } catch (error) {
+    } catch (error) {
 
-    console.log(error);
+      console.log(error);
 
-  }
-};
+    }
 
-  const approveListing = async (id) => {
+  };
+
+  const approveListing =
+  async (id) => {
 
     try {
 
       await api.put(
-        `/listings/approve/${id}`
+        `/listings/admin/approve/${id}`
       );
 
       fetchListings();
@@ -76,14 +85,16 @@ async () => {
       console.log(error);
 
     }
+
   };
 
-  const rejectListing = async (id) => {
+  const rejectListing =
+  async (id) => {
 
     try {
 
       await api.delete(
-        `/listings/${id}`
+        `/listings/admin/${id}`
       );
 
       fetchListings();
@@ -93,92 +104,94 @@ async () => {
       console.log(error);
 
     }
+
   };
 
   const pendingListings =
-    listings.filter(
-      (listing) => !listing.approved
-    );
+  listings.filter(
+    (listing) => !listing.approved
+  );
 
   const approvedListings =
-    listings.filter(
-      (listing) => listing.approved
-    );
+  listings.filter(
+    (listing) => listing.approved
+  );
 
   return (
 
-    <div className="admin">
+    <>
 
-      <h1>
-        Admin Panel
-      </h1>
 
-      <div className="admin-tabs">
 
-        <button
-          className={
-            activeTab === "pending"
+      <div className="admin">
+
+        <h1 className="admin-title">
+          Admin Panel
+        </h1>
+
+        <div className="admin-tabs">
+
+          <button
+            className={
+              activeTab === "pending"
               ? "active-tab"
               : ""
-          }
-          onClick={() =>
-            setActiveTab("pending")
-          }
-        >
-          Նոր հայտարարություններ
-        </button>
-
-        <button
-          className={
-            activeTab === "approved"
-              ? "active-tab"
-              : ""
-          }
-          onClick={() =>
-            setActiveTab("approved")
-          }
-        >
-          Հայտարարություններ
-        </button>
-
-      </div>
-
-      <div
-        className={`admin-columns ${
-          activeTab === "approved"
-            ? "show-approved"
-            : ""
-        }`}
-      >
-
-        <div className="admin-column">
-
-          <h2 className="admin-column__title pending-title">
-
+            }
+            onClick={() =>
+              setActiveTab("pending")
+            }
+          >
             Նոր հայտարարություններ
+          </button>
 
-          </h2>
+          <button
+            className={
+              activeTab === "approved"
+              ? "active-tab"
+              : ""
+            }
+            onClick={() =>
+              setActiveTab("approved")
+            }
+          >
+            Հայտարարություններ
+          </button>
 
-          <div className="admin__list">
+          <button
+            className={
+              activeTab === "users"
+              ? "active-tab"
+              : ""
+            }
+            onClick={() =>
+              setActiveTab("users")
+            }
+          >
+            Օգտատերեր
+          </button>
 
-            {
+        </div>
 
-              pendingListings.map(
-                (listing) => (
+        {
+
+          activeTab === "pending" && (
+
+            <div className="admin-grid">
+
+              {
+
+                pendingListings.map(
+                  (listing) => (
 
                   <div
                     key={listing._id}
                     className="admin-card"
                   >
 
-                    <div className="admin-card__image">
-
-                      <img
-                        src={`http://localhost:5000${listing.image}`}
-                        alt={listing.title}
-                      />
-
-                    </div>
+                    <img
+                      src={`http://localhost:5000${listing.image}`}
+                      alt=""
+                    />
 
                     <div className="admin-card__content">
 
@@ -187,12 +200,51 @@ async () => {
                       </h2>
 
                       <p>
+                        <strong>
+                          Նկարագրություն։
+                        </strong>
+
                         {listing.description}
                       </p>
 
-                      <p className="admin-card__email">
+                      <p>
+                        <strong>
+                          Որակավորումներ։
+                        </strong>
+
+                        {listing.qualifications}
+                      </p>
+
+                      <p>
+                        <strong>
+                          Գործատու։
+                        </strong>
+
+                        {listing.employerInfo}
+                      </p>
+
+                      <p>
+                        <strong>
+                          Email։
+                        </strong>
 
                         {listing.userEmail}
+                      </p>
+
+                      <p>
+                        <strong>
+                          Աշխատավարձ։
+                        </strong>
+
+                        {
+
+                          listing.isContract
+
+                          ? "Պայմանագրային"
+
+                          : `${listing.price} դրամ`
+
+                        }
 
                       </p>
 
@@ -227,40 +279,35 @@ async () => {
                   </div>
 
                 ))
-            }
 
-          </div>
+              }
 
-        </div>
+            </div>
 
-        <div className="admin-column">
+          )
 
-          <h2 className="admin-column__title approved-title">
+        }
 
-            Հայտարարություններ
+        {
 
-          </h2>
+          activeTab === "approved" && (
 
-          <div className="admin__list">
+            <div className="admin-grid">
 
-            {
+              {
 
-              approvedListings.map(
-                (listing) => (
+                approvedListings.map(
+                  (listing) => (
 
                   <div
                     key={listing._id}
                     className="admin-card"
                   >
 
-                    <div className="admin-card__image">
-
-                      <img
-                        src={`http://localhost:5000${listing.image}`}
-                        alt={listing.title}
-                      />
-
-                    </div>
+                    <img
+                      src={`http://localhost:5000${listing.image}`}
+                      alt=""
+                    />
 
                     <div className="admin-card__content">
 
@@ -269,12 +316,51 @@ async () => {
                       </h2>
 
                       <p>
+                        <strong>
+                          Նկարագրություն։
+                        </strong>
+
                         {listing.description}
                       </p>
 
-                      <p className="admin-card__email">
+                      <p>
+                        <strong>
+                          Որակավորումներ։
+                        </strong>
+
+                        {listing.qualifications}
+                      </p>
+
+                      <p>
+                        <strong>
+                          Գործատու։
+                        </strong>
+
+                        {listing.employerInfo}
+                      </p>
+
+                      <p>
+                        <strong>
+                          Email։
+                        </strong>
 
                         {listing.userEmail}
+                      </p>
+
+                      <p>
+                        <strong>
+                          Աշխատավարձ։
+                        </strong>
+
+                        {
+
+                          listing.isContract
+
+                          ? "Պայմանագրային"
+
+                          : `${listing.price} դրամ`
+
+                        }
 
                       </p>
 
@@ -298,57 +384,60 @@ async () => {
                   </div>
 
                 ))
-            }
 
-          </div>
+              }
 
-        </div>
+            </div>
 
-        <div className="admin-column">
+          )
 
-  <h2 className="admin-column__title">
-    Օգտատերեր
-  </h2>
+        }
 
-  <div className="admin__list">
+        {
 
-    {
+          activeTab === "users" && (
 
-      users.map(
-        (user) => (
+            <div className="admin-grid">
 
-        <div
-          key={user._id}
-          className="admin-card"
-        >
+              {
 
-          <div className="admin-card__content">
+                users.map((user) => (
 
-            <h3>
-              {user.email}
-            </h3>
+                  <div
+                    key={user._id}
+                    className="admin-card user-card"
+                  >
 
-            <p>
-              {user.phone}
-            </p>
+                    <div className="admin-card__content">
 
-          </div>
+                      <h2>
+                        {user.email}
+                      </h2>
 
-        </div>
+                      <p>
+                        {user.phone}
+                      </p>
 
-      ))
+                    </div>
 
-    }
+                  </div>
 
-  </div>
+                ))
 
-</div>
+              }
+
+            </div>
+
+          )
+
+        }
 
       </div>
 
-    </div>
+    </>
 
   );
+
 }
 
 export default Admin;

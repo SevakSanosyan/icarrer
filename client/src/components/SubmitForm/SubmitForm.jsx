@@ -28,8 +28,8 @@ function SubmitForm({
   setDescription] =
   useState("");
 
-  const [companyInfo,
-  setCompanyInfo] =
+  const [employerInfo,
+  setEmployerInfo] =
   useState("");
 
   const [price,
@@ -79,6 +79,16 @@ function SubmitForm({
 
     e.preventDefault();
 
+    if (!image) {
+
+      alert(
+        "Նկարը պարտադիր է"
+      );
+
+      return;
+
+    }
+
     try {
 
       const authData =
@@ -91,7 +101,20 @@ function SubmitForm({
       );
 
       const token =
-      authData?.state?.token;
+
+        authData?.state?.token ||
+
+        authData?.token;
+
+      if (!token) {
+
+        alert(
+          "Token չի գտնվել"
+        );
+
+        return;
+
+      }
 
       const formData =
       new FormData();
@@ -117,12 +140,13 @@ function SubmitForm({
       );
 
       formData.append(
-        "companyInfo",
-        companyInfo
+        "employerInfo",
+        employerInfo
       );
 
       formData.append(
         "price",
+
         isContract
         ? ""
         : price
@@ -138,6 +162,7 @@ function SubmitForm({
         image
       );
 
+      const res =
       await api.post(
 
         "/listings",
@@ -151,14 +176,13 @@ function SubmitForm({
             Authorization:
             `Bearer ${token}`,
 
-            "Content-Type":
-            "multipart/form-data",
-
           },
 
         }
 
       );
+
+      console.log(res.data);
 
       setSuccess(true);
 
@@ -174,7 +198,7 @@ function SubmitForm({
 
       setDescription("");
 
-      setCompanyInfo("");
+      setEmployerInfo("");
 
       setPrice("");
 
@@ -187,6 +211,20 @@ function SubmitForm({
     } catch (error) {
 
       console.log(error);
+
+      console.log(
+        error?.response
+      );
+
+      alert(
+
+        error?.response?.data?.message ||
+
+        error.message ||
+
+        "Սխալ է տեղի ունեցել"
+
+      );
 
     }
 
@@ -279,23 +317,23 @@ function SubmitForm({
 
           <div className="submit-form__salary-options">
 
-          <label className="submit-form__checkbox">
+            <label className="submit-form__checkbox">
 
-<input
-  type="checkbox"
-  checked={isContract}
-  onChange={() =>
-    setIsContract(!isContract)
-  }
-/>
+              <input
+                type="checkbox"
+                checked={isContract}
+                onChange={() =>
+                  setIsContract(!isContract)
+                }
+              />
 
-<span className="submit-form__fake-check"></span>
+              <span className="submit-form__fake-check"></span>
 
-<span className="submit-form__checkbox-text">
-  Պայմանագրային
-</span>
+              <span className="submit-form__checkbox-text">
+                Պայմանագրային
+              </span>
 
-</label>
+            </label>
 
             {
 
@@ -330,9 +368,9 @@ function SubmitForm({
 
         <textarea
           placeholder="Տեղեկատվություն գործատուի մասին"
-          value={companyInfo}
+          value={employerInfo}
           onChange={(e) =>
-            setCompanyInfo(
+            setEmployerInfo(
               e.target.value
             )
           }
