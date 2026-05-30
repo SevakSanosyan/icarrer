@@ -2,474 +2,507 @@ const Listing =
 require("../models/Listing");
 
 const createListing =
-async (req, res) => {
+async (req,res)=>{
 
-  try {
+try{
 
-    const {
+const {
 
-      title,
-      qualifications,
-      description,
-      employerInfo,
-      price,
-      isContract,
-      userEmail,
+title,
+qualifications,
+description,
+employerInfo,
+price,
+isContract,
+userEmail
 
-    } = req.body;
+}=req.body;
 
-    const image =
-    req.file
-      ? `/uploads/${req.file.filename}`
-      : "";
+const image =
+req.file
+? `/uploads/${req.file.filename}`
+: "";
 
-    const listing =
-    await Listing.create({
+const contractValue =
+isContract===true ||
+isContract==="true";
 
-      title,
+const listing =
+await Listing.create({
 
-      qualifications,
+title,
 
-      description,
+qualifications,
 
-      employerInfo,
+description,
 
-      price:
-      isContract ? 0 : price,
+employerInfo,
 
-      isContract,
+price:
+contractValue
+? 0
+: price,
 
-      image,
+isContract:
+contractValue,
 
-      userEmail,
+image,
 
-      userId:
-      req.user.id,
+userEmail,
 
-    });
+userId:
+req.user.id
 
-    res.status(201).json(
-      listing
-    );
+});
 
-  } catch (error) {
+res.status(201)
+.json(listing);
 
-    console.log(error);
+}
 
-    res.status(500).json({
+catch(error){
 
-      message:
-      error.message,
+console.log(error);
 
-    });
+res.status(500).json({
 
-  }
+message:error.message
+
+});
+
+}
 
 };
 
 const getListings =
-async (req, res) => {
+async (req,res)=>{
 
-  try {
+try{
 
-    const {
-      sort,
-      search,
-    } = req.query;
+const {
 
-    let sortOption = {
-      createdAt: -1,
-    };
+sort,
+search
 
-    if (sort === "old") {
+}=req.query;
 
-      sortOption = {
-        createdAt: 1,
-      };
+let sortOption={
 
-    }
-
-    if (sort === "salary-high") {
-
-      sortOption = {
-        price: -1,
-      };
-
-    }
-
-    if (sort === "salary-low") {
-
-      sortOption = {
-        price: 1,
-      };
-
-    }
-
-    let filter = {
-      approved: true,
-    };
-
-    if (search && search.trim() !== "") {
-
-      filter.$or = [
-
-        {
-          title: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-
-        {
-          description: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-
-        {
-          qualifications: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-
-        {
-          employerInfo: {
-            $regex: search,
-            $options: "i",
-          },
-        },
-
-      ];
-
-    }
-
-    const listings =
-    await Listing.find(filter)
-    .sort(sortOption);
-
-    res.json(listings);
-
-  } catch (error) {
-
-    res.status(500).json({
-
-      message:
-      error.message,
-
-    });
-
-  }
+createdAt:-1
 
 };
 
-const getPendingListings =
-async (req, res) => {
+if(sort==="old"){
 
-  try {
+sortOption={
+createdAt:1
+};
 
-    const listings =
-    await Listing.find({
+}
 
-      approved: false,
+if(sort==="salary-high"){
 
-    }).sort({
+sortOption={
+price:-1
+};
 
-      createdAt: -1,
+}
 
-    });
+if(sort==="salary-low"){
 
-    res.json(listings);
+sortOption={
+price:1
+};
 
-  } catch (error) {
+}
 
-    res.status(500).json({
+let filter={
 
-      message:
-      error.message,
+approved:true
 
-    });
+};
 
-  }
+if(
+search &&
+search.trim()!==""
+){
+
+filter.$or=[
+
+{
+title:{
+$regex:search,
+$options:"i"
+}
+},
+
+{
+description:{
+$regex:search,
+$options:"i"
+}
+},
+
+{
+qualifications:{
+$regex:search,
+$options:"i"
+}
+},
+
+{
+employerInfo:{
+$regex:search,
+$options:"i"
+}
+}
+
+];
+
+}
+
+const listings =
+await Listing.find(filter)
+.sort(sortOption);
+
+res.json(listings);
+
+}
+
+catch(error){
+
+res.status(500).json({
+
+message:error.message
+
+});
+
+}
 
 };
 
 const approveListing =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    await Listing.findByIdAndUpdate(
+const listing=
+await Listing.findByIdAndUpdate(
 
-      req.params.id,
+req.params.id,
 
-      {
-        approved: true,
-      }
+{
+approved:true
+},
 
-    );
+{
+new:true
+}
 
-    res.json({
+);
 
-      message:
-      "Approved",
+if(!listing){
 
-    });
+return res.status(404)
+.json({
 
-  } catch (error) {
+message:
+"Not found"
 
-    res.status(500).json({
+});
 
-      message:
-      error.message,
+}
 
-    });
+res.json({
 
-  }
+message:"Approved",
+
+listing
+
+});
+
+}
+
+catch(error){
+
+res.status(500).json({
+
+message:error.message
+
+});
+
+}
 
 };
 
 const deleteListing =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    await Listing.findByIdAndDelete(
-      req.params.id
-    );
+await Listing.findByIdAndDelete(
+req.params.id
+);
 
-    res.json({
+res.json({
 
-      message:
-      "Deleted",
+message:"Deleted"
 
-    });
+});
 
-  } catch (error) {
+}
 
-    res.status(500).json({
+catch(error){
 
-      message:
-      error.message,
+res.status(500).json({
 
-    });
+message:error.message
 
-  }
+});
+
+}
 
 };
 
 const getAllListings =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    const listings =
-    await Listing.find()
-    .sort({
+const listings=
+await Listing.find()
+.sort({
 
-      createdAt: -1,
+createdAt:-1
 
-    });
+});
 
-    res.json(listings);
+res.json(listings);
 
-  } catch (error) {
+}
 
-    res.status(500).json({
+catch(error){
 
-      message:
-      error.message,
+res.status(500).json({
 
-    });
+message:error.message
 
-  }
+});
+
+}
 
 };
 
 const getSingleListing =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    const listing =
-    await Listing.findById(
-      req.params.id
-    );
+const listing=
+await Listing.findById(
+req.params.id
+);
 
-    res.json(listing);
+res.json(listing);
 
-  } catch (error) {
+}
 
-    res.status(500).json({
+catch(error){
 
-      message:
-      error.message,
+res.status(500).json({
 
-    });
+message:error.message
 
-  }
+});
+
+}
 
 };
 
 const getMyListings =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    const listings =
-    await Listing.find({
+const listings=
+await Listing.find({
 
-      userId:
-      req.user.id,
+userId:req.user.id
 
-    }).sort({
+}).sort({
 
-      createdAt: -1,
+createdAt:-1
 
-    });
+});
 
-    res.json(listings);
+res.json(listings);
 
-  } catch (error) {
+}
 
-    res.status(500).json({
+catch(error){
 
-      message:
-      error.message,
+res.status(500).json({
 
-    });
+message:error.message
 
-  }
+});
+
+}
 
 };
 
 const updateListing =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    const listing =
-    await Listing.findById(
-      req.params.id
-    );
+const listing=
+await Listing.findById(
+req.params.id
+);
 
-    if (!listing) {
+if(!listing){
 
-      return res.status(404).json({
-        message: "Not found",
-      });
+return res.status(404)
+.json({
 
-    }
+message:"Not found"
 
-    if (
-      listing.userId.toString()
-      !== req.user.id
-    ) {
+});
 
-      return res.status(403).json({
-        message: "Forbidden",
-      });
+}
 
-    }
+if(
+listing.userId.toString()
+!==req.user.id
+){
 
-    listing.title =
-    req.body.title;
+return res.status(403)
+.json({
 
-    listing.description =
-    req.body.description;
+message:"Forbidden"
 
-    listing.qualifications =
-    req.body.qualifications;
+});
 
-    listing.employerInfo =
-    req.body.employerInfo;
+}
 
-    listing.price =
-    req.body.price;
+const contractValue=
+req.body.isContract===true ||
+req.body.isContract==="true";
 
-    listing.isContract =
-    req.body.isContract;
+listing.title=
+req.body.title;
 
-    await listing.save();
+listing.description=
+req.body.description;
 
-    res.json(listing);
+listing.qualifications=
+req.body.qualifications;
 
-  } catch (error) {
+listing.employerInfo=
+req.body.employerInfo;
 
-    res.status(500).json({
-      message: error.message,
-    });
+listing.isContract=
+contractValue;
 
-  }
+listing.price=
+contractValue
+? 0
+: req.body.price;
+
+await listing.save();
+
+res.json(listing);
+
+}
+
+catch(error){
+
+res.status(500).json({
+
+message:error.message
+
+});
+
+}
 
 };
 
 const removeListing =
-async (req, res) => {
+async(req,res)=>{
 
-  try {
+try{
 
-    const listing =
-    await Listing.findById(
-      req.params.id
-    );
+const listing=
+await Listing.findById(
+req.params.id
+);
 
-    if (!listing) {
+if(!listing){
 
-      return res.status(404).json({
-        message: "Not found",
-      });
+return res.status(404)
+.json({
 
-    }
+message:"Not found"
 
-    if (
-      listing.userId.toString()
-      !== req.user.id
-    ) {
+});
 
-      return res.status(403).json({
-        message: "Forbidden",
-      });
+}
 
-    }
+if(
+listing.userId.toString()
+!==req.user.id
+){
 
-    await listing.deleteOne();
+return res.status(403)
+.json({
 
-    res.json({
-      message: "Deleted",
-    });
+message:"Forbidden"
 
-  } catch (error) {
+});
 
-    res.status(500).json({
-      message: error.message,
-    });
+}
 
-  }
+await listing.deleteOne();
+
+res.json({
+
+message:"Deleted"
+
+});
+
+}
+
+catch(error){
+
+res.status(500).json({
+
+message:error.message
+
+});
+
+}
 
 };
 
-module.exports = {
+module.exports={
 
-  createListing,
+createListing,
 
-  getListings,
+getListings,
 
-  getPendingListings,
+approveListing,
 
-  approveListing,
+deleteListing,
 
-  deleteListing,
+getAllListings,
 
-  getAllListings,
+getSingleListing,
 
-  getSingleListing,
+getMyListings,
 
-  getMyListings,
+updateListing,
 
-  updateListing,
-
-  removeListing,
+removeListing
 
 };

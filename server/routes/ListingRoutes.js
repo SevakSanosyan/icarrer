@@ -1,4 +1,3 @@
-
 const express =
 require("express");
 
@@ -8,15 +7,12 @@ express.Router();
 const upload =
 require("../config/multer");
 
-
 const {
 
   createListing,
   getListings,
-  getPendingListings,
   approveListing,
   deleteListing,
-  getListingById,
   getAllListings,
   getSingleListing,
   getMyListings,
@@ -26,8 +22,6 @@ const {
 } = require(
   "../controllers/listingController"
 );
-
-
 
 const authMiddleware =
 require("../middleware/authMiddleware");
@@ -39,31 +33,29 @@ router.post(
   createListing
 );
 
-
 router.get(
   "/",
   getListings
 );
-
-
-
 
 router.get(
   "/admin/all",
   getAllListings
 );
 
-
+/* ADMIN */
 
 router.put(
-  "/approve/:id",
+  "/admin/approve/:id",
   approveListing
 );
 
 router.delete(
-  "/:id",
+  "/admin/:id",
   deleteListing
 );
+
+/* USER */
 
 router.get(
   "/my",
@@ -90,4 +82,3 @@ router.delete(
 
 module.exports =
 router;
-

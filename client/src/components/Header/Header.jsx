@@ -175,7 +175,7 @@ function Header({
 
         </a>
 
-        <a href="#">
+        <a href="https://www.facebook.com/profile.php?id=61589883387481  ">
 
           <img
             src={Facebooklogo}
@@ -184,7 +184,7 @@ function Header({
 
         </a>
 
-        <a href="#">
+        <a href="https://t.me/icareeram">
 
           <img
             src={Telelogo}
